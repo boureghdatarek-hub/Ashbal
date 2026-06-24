@@ -3,674 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة دليل التميز والاختبار التفاعلي الموحدة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>بوابة التحضير الفردي التفاعلية | أشبال الأمة</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts (Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; }
-        .btn-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); }
-        .btn-gradient:hover { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); }
-        .military-shadow { box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.15); }
-        .active-tab { border-color: #f59e0b; color: #1e3a8a; background-color: #fef3c7; }
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
     </style>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCGsThXw4FvsOD18Fmhf3UY2QB_oYKENwA",
-            authDomain: "ashbalquiz.firebaseapp.com",
-            projectId: "ashbalquiz",
-            storageBucket: "ashbalquiz.firebasestorage.app",
-            messagingSenderId: "463368091901",
-            appId: "1:463368091901:web:0dadd50b0918b18987a694",
-            measurementId: "G-BPZF0C0K3L"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.saveScoreToFirebase = async (name, score, subject, difficulty, qCount) => {
-            try {
-                await addDoc(collection(db, "leaderboard"), {
-                    name: name,
-                    score: score,
-                    subject: `${subject} (${difficulty} - ${qCount} أسئلة)`,
-                    timestamp: new Date()
-                });
-                await window.calculateUserRank(score);
-                await window.loadLeaderboard();
-            } catch (e) {
-                console.error("خطأ أثناء الاتصال بـ Firestore:", e);
-                window.showNotification("خطأ في حفظ النتيجة، يرجى التحقق من القواعد.", "error");
-            }
-        };
-
-        window.loadLeaderboard = async () => {
-            const list = document.getElementById('leaderboardList');
-            if (!list) return;
-            try {
-                const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), orderBy("timestamp", "desc"), limit(6));
-                const querySnapshot = await getDocs(q);
-                list.innerHTML = "";
-                let index = 1;
-                querySnapshot.forEach((doc) => {
-                    const s = doc.data();
-                    let medal = index === 1 ? "🥇 " : index === 2 ? "🥈 " : index === 3 ? "🥉 " : "";
-                    list.innerHTML += `
-                        <li class="flex justify-between items-center p-3 border-b border-gray-100 hover:bg-amber-50/50 transition rounded-lg">
-                            <div class="flex items-center gap-2">
-                                <span class="font-bold text-gray-500 w-6">${index}.</span>
-                                <span class="font-bold text-gray-800">${medal}${s.name}</span>
-                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-semibold">${s.subject || 'عام'}</span>
-                            </div> 
-                            <span class="text-blue-700 font-extrabold">${s.score} نقطة</span>
-                        </li>`;
-                    index++;
-                });
-            } catch (e) {
-                console.error("خطأ أثناء جلب البيانات:", e);
-                list.innerHTML = "<li class='p-3 text-red-500 text-center'>تعذر تحميل لوحة الصدارة المباشرة حالياً</li>";
-            }
-        };
-
-        window.calculateUserRank = async (userScore) => {
-            try {
-                const q = query(collection(db, "leaderboard"), orderBy("score", "desc"));
-                const querySnapshot = await getDocs(q);
-                let totalParticipants = querySnapshot.size;
-                let rank = 1;
-                querySnapshot.forEach((doc) => { if (doc.data().score > userScore) rank++; });
-                if (typeof window.renderRankMessage === "function") window.renderRankMessage(rank, totalParticipants);
-            } catch (e) { console.error("خطأ في حساب الرتبة:", e); }
-        };
-
-        window.onload = () => { window.loadLeaderboard(); };
-    </script>
 </head>
-<body class="bg-slate-50 min-h-screen text-gray-800 flex flex-col justify-between">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-900">
 
-    <header class="bg-slate-900 text-white py-6 shadow-md border-b-4 border-amber-500">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <!-- Header -->
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-50 px-4 py-3 shadow-lg">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <span class="text-4xl">📚</span>
+                <span class="text-3xl">📚</span>
                 <div>
-                    <h1 class="text-2xl font-black tracking-wide">بوابة التحضير الفردي التفاعلية</h1>
-                    <p class="text-xs text-amber-400 font-semibold">دليل مراجعة واختبارات تجريبية تضامنية للمترشحين</p>
+                    <h1 class="text-xl font-black text-amber-400 tracking-wide">بوابة التحضير الفردي التفاعلية</h1>
+                    <p class="text-xs text-slate-400 font-medium">دليل مراجعة واختبارات تجريبية للمترشحين</p>
                 </div>
             </div>
-            <div class="text-sm bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl text-center sm:text-right">
-                <span>إعداد وتطوير: </span><span class="font-bold text-amber-300">المواطن ب طارق</span>
+            <div class="bg-slate-900/60 border border-slate-700 px-4 py-1.5 rounded-full text-xs font-bold text-slate-300">
+                إعداد وتطوير: <span class="text-amber-400">المواطن ب طارق</span>
             </div>
         </div>
-        <div class="max-w-5xl mx-auto px-4 mt-3">
-            <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2 text-center text-[11px] text-amber-400 font-semibold">
-                ⚠️ تنويه هام: هذا الموقع عبارة عن مبادرة شخصية مستقلة لمساعدة أولياء الأمور والتلاميذ، وهو غير رسمي ولا يمثل أي جهة حكومية أو عسكرية.
-            </div>
+        <!-- Disclaimer -->
+        <div class="max-w-3xl mx-auto mt-2 text-center bg-amber-500/10 border border-amber-500/20 py-1 px-3 rounded-lg">
+            <p class="text-[10px] sm:text-xs text-amber-400 font-semibold">
+                ⚠️ تنويه هام: هذا الموقع عبارة عن مبادرة شخصية مستقلة لمساعدة أولياء الأمور والتلاميذ، وهو غير رسمي ولا يمثل أي جهة عسكرية أو حكومية.
+            </p>
         </div>
     </header>
 
-    <section class="max-w-4xl w-full mx-auto px-4 mt-6">
-        <div class="grid grid-cols-2 gap-2 p-1.5 bg-slate-950/5 rounded-2xl border border-gray-200">
-            <button onclick="switchTab('guide')" id="guideTabBtn" class="py-3 px-4 rounded-xl font-bold text-center transition duration-300 flex items-center justify-center gap-2 active-tab">
-                <span>📋</span> دليل التحضير والإرشاد
+    <!-- Main Content -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
+        
+        <!-- Navigation Tabs -->
+        <div id="navTabs" class="flex justify-center gap-2 mb-6 max-w-md mx-auto w-full">
+            <button onclick="switchTab('quiz')" id="tabQuiz" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow bg-amber-500 text-slate-950">
+                🎯 مسابقات المراجعة التفاعلية
             </button>
-            <button onclick="switchTab('quiz')" id="quizTabBtn" class="py-3 px-4 rounded-xl font-bold text-center text-gray-600 hover:text-slate-900 hover:bg-white/50 transition duration-300 flex items-center justify-center gap-2">
-                <span>🎯</span> مسابقات المراجعة التفاعلية
+            <button onclick="switchTab('guide')" id="tabGuide" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/30">
+                📜 دليل التحضير والإرشاد
             </button>
         </div>
-    </section>
 
-    <main class="flex-grow max-w-4xl w-full mx-auto p-4 my-4">
-        
-        <div id="guideTab" class="space-y-8">
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-xl military-shadow">
-                <div class="text-center space-y-3 max-w-2xl mx-auto">
-                    <span class="text-5xl block">🤝</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">مبادرة فردية لدعم الأولياء والتلاميذ</h2>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        بصفتي مهتماً بالمجال المعلوماتي والتعليمي، قمت بتطوير هذه المنصة بشكل تطوعي ومستقل تماماً لتبسيط محتوى المسابقات وتسهيل تحضير الأبناء للمراحل المختلفة بذكاء وسلاسة.
+        <!-- Tab 1: Quiz Section -->
+        <div id="sectionQuiz" class="space-y-6">
+            <!-- Subject Selection View -->
+            <div id="subjectView" class="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-sm shadow-xl space-y-6">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-100">اختر مادة لمراجعتها</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-md mx-auto">اختبارات مأخوذة من نماذج ومسابقات السنوات الماضية لتأهيل التلاميذ وتدريبهم.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto pt-2">
+                    <!-- Math -->
+                    <button onclick="startQuiz('math')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
+                        <div class="flex items-center gap-4">
+                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">📐</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">الرياضيات</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">دورة 2025</p>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
+                    </button>
+                    <!-- Arabic -->
+                    <button onclick="startQuiz('arabic')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
+                        <div class="flex items-center gap-4">
+                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">✍️</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">اللغة العربية</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">دورة متميزة</p>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
+                    </button>
+                    <!-- Physics -->
+                    <button onclick="startQuiz('physics')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
+                        <div class="flex items-center gap-4">
+                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">🧪</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">العلوم الفيزيائية والتكنولوجيا</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">تمارين هامة</p>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
+                    </button>
+                    <!-- Biology -->
+                    <button onclick="startQuiz('biology')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
+                        <div class="flex items-center gap-4">
+                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">🔬</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">علوم الطبيعة والحياة</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">دورة 2023-2024</p>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Play View -->
+            <div id="quizView" class="hidden bg-slate-800/40 border border-slate-700/40 rounded-3xl p-5 sm:p-8 backdrop-blur-sm shadow-xl space-y-6 max-w-2xl mx-auto">
+                <div class="flex justify-between items-center border-b border-slate-700/50 pb-4">
+                    <div class="flex items-center gap-2">
+                        <span id="subjectIcon" class="text-2xl">📐</span>
+                        <h2 id="subjectTitle" class="font-black text-lg text-amber-400">اسم المادة</h2>
+                    </div>
+                    <button onclick="exitQuiz()" class="text-xs font-bold text-slate-400 hover:text-rose-400 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition-colors">
+                        🚪 إنهاء الخروج
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-bold text-slate-400">
+                        <span>التقدم في الأسئلة</span>
+                        <span id="progressText">السؤال 1 من 5</span>
+                    </div>
+                    <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                        <div id="progressBar" class="bg-gradient-to-l from-amber-400 to-amber-500 h-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question Box -->
+                <div class="bg-slate-800/80 border border-slate-700/60 p-5 sm:p-6 rounded-2xl shadow-inner">
+                    <p id="questionText" class="text-base sm:text-lg font-bold leading-relaxed text-slate-100">نص السؤال الافتراضي سيكون هنا؟</p>
+                </div>
+
+                <!-- Options Grid -->
+                <div id="optionsContainer" class="grid grid-cols-1 gap-3 pt-2">
+                    <!-- سيتم توليد الخيارات ديناميكياً بواسطة JavaScript -->
+                </div>
+            </div>
+
+            <!-- Quiz Result View -->
+            <div id="resultView" class="hidden bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-sm shadow-xl space-y-6 max-w-md mx-auto">
+                <div class="w-24 h-24 bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-950 rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg animate-bounce">
+                    🏆
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-100">أحسنت! اكتمل الاختبار</h2>
+                    <p class="text-slate-400 text-xs mt-1">لقد قمت بمراجعة وتأكيد معلوماتك في هذه المادة بنجاح.</p>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl max-w-xs mx-auto">
+                    <span class="text-xs text-slate-400 font-bold block mb-1">النتيجة النهائية والتقييم:</span>
+                    <span class="text-4xl font-black text-amber-400" id="finalScoreText">100</span>
+                    <span class="text-xl font-bold text-slate-300"> / 100</span>
+                </div>
+
+                <!--container للتحميل التلقائي للملفات المحدثة-->
+                <div id="pdfDownloadContainer"></div>
+
+                <div class="pt-4 border-t border-slate-700/50">
+                    <button onclick="exitQuiz()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-4 rounded-xl transition shadow text-sm">
+                        🔄 مراجعة مادة أخرى
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Guide Section -->
+        <div id="sectionGuide" class="hidden bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-xl space-y-6 max-w-3xl mx-auto">
+            <div class="border-b border-slate-700/50 pb-4 text-center sm:text-right">
+                <h2 class="text-xl sm:text-2xl font-black text-amber-400">دليل التوجيه والتحضير لمسابقات أشبال الأمة</h2>
+                <p class="text-xs text-slate-400 mt-1">إرشادات هامة وشروط الانتقاء المتبعة لمرحلة التعليم المتوسط.</p>
+            </div>
+            
+            <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl">
+                    <h3 class="font-bold text-amber-400 mb-1 flex items-center gap-1.5">📌 شروط التسجيل المبدئي الأساسية:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 pr-2">
+                        <li>الحصول على شهادة التعليم الابتدائي بمعدل يساوي أو يفوق السن النظري للمسابقة.</li>
+                        <li>اللياقة البدنية والصحية الجيدة والمقبولة من طرف المصالح الطبية العسكرية المعنية.</li>
+                        <li>النجاح في فحص وانتقاء المسابقة بناء على ترتيب المعدلات الوطنية.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl">
+                    <h3 class="font-bold text-amber-400 mb-1 flex items-center gap-1.5">📝 مراحل وسير المسابقة والامتحانات:</h3>
+                    <p class="text-xs text-slate-400 leading-normal">
+                        تتضمن المسابقة اختبارات كتابية تفاعلية في المواد الأساسية للطور: الرياضيات، اللغة العربية، والعلوم والفيزياء، بالإضافة إلى فحص طبي دقيق واختبارات لياقة بدنية لضمان القدرة على مواكبة النظام والبرنامج الدراسي الخاص بالمدارس.
                     </p>
                 </div>
             </div>
-
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-xl military-shadow space-y-6">
-                <h3 class="text-2xl font-bold text-slate-900 border-r-4 border-amber-500 pr-3">🗺️ خارطة طريق مراحل الاختبارات</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="bg-slate-50 border border-gray-100 rounded-2xl p-5 hover:border-amber-400 hover:bg-amber-50/20 transition duration-300 relative overflow-hidden group">
-                        <span class="text-3xl block mb-3">🩺</span>
-                        <h4 class="text-lg font-bold text-slate-900 mb-1">الفحص الطبي</h4>
-                        <p class="text-xs text-gray-500">سلامة بدنية تامة، قوة نظر وسمع ممتازة بدون نظارات طبية.</p>
-                    </div>
-                    <div class="bg-slate-50 border border-gray-100 rounded-2xl p-5 hover:border-amber-400 hover:bg-amber-50/20 transition duration-300 relative overflow-hidden group">
-                        <span class="text-3xl block mb-3">🏃‍♂️</span>
-                        <h4 class="text-lg font-bold text-slate-900 mb-1">الفحص البدني</h4>
-                        <p class="text-xs text-gray-500">اختبارات لياقة وسرعة، وجري وتحمل عضلي متكامل.</p>
-                    </div>
-                    <div class="bg-slate-50 border border-gray-100 rounded-2xl p-5 hover:border-amber-400 hover:bg-amber-50/20 transition duration-300 relative overflow-hidden group">
-                        <span class="text-3xl block mb-3">🧠</span>
-                        <h4 class="text-lg font-bold text-slate-900 mb-1">الاختبار النفسي</h4>
-                        <p class="text-xs text-gray-500">دراسة مدى توازن الشخصية، البديهة، والقدرة على الانضباط.</p>
-                    </div>
-                    <div class="bg-slate-50 border border-gray-100 rounded-2xl p-5 hover:border-amber-400 hover:bg-amber-50/20 transition duration-300 relative overflow-hidden group">
-                        <span class="text-3xl block mb-3">✍️</span>
-                        <h4 class="text-lg font-bold text-slate-900 mb-1">الاختبار الكتابي</h4>
-                        <p class="text-xs text-gray-500">الامتحانات الفاصلة في المواد الأساسية للرابعة متوسط للوقوف على مستوى التلميذ المعرفي.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-xl military-shadow space-y-4">
-                    <h3 class="text-xl font-bold text-slate-900 border-r-4 border-amber-500 pr-3">📊 توزيع المواد وأهميتها</h3>
-                    <div class="space-y-4 pt-2">
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-sm">
-                                <span class="font-bold text-gray-700">📐 الرياضيات</span>
-                                <span class="font-bold text-slate-800">90%</span>
-                            </div>
-                            <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden"><div class="bg-slate-800 h-3.5 rounded-full" style="width: 90%"></div></div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-sm">
-                                <span class="font-bold text-gray-700">🔬 فيزياء-تكنولوجيا</span>
-                                <span class="font-bold text-emerald-800">80%</span>
-                            </div>
-                            <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden"><div class="bg-emerald-600 h-3.5 rounded-full" style="width: 80%"></div></div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-sm">
-                                <span class="font-bold text-gray-700">✍️ اللغة العربية</span>
-                                <span class="font-bold text-amber-800">70%</span>
-                            </div>
-                            <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden"><div class="bg-amber-500 h-3.5 rounded-full" style="width: 70%"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-xl military-shadow space-y-4 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-900 border-r-4 border-amber-500 pr-3">⏱️ مقترح تنظيم الوقت</h3>
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-center gap-6 pt-2">
-                        <div class="w-32 h-32 flex-shrink-0 relative">
-                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f1f5f9" stroke-width="4.2"></circle>
-                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#1e3a8a" stroke-width="4.2" stroke-dasharray="35 65" stroke-dashoffset="100"></circle>
-                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#059669" stroke-width="4.2" stroke-dasharray="25 75" stroke-dashoffset="65"></circle>
-                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#d97706" stroke-width="4.2" stroke-dasharray="40 60" stroke-dashoffset="40"></circle>
-                            </svg>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-xs font-bold text-gray-700 w-full">
-                            <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-900 block"></span> 35% نظري ومراجعة</div>
-                            <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600 block"></span> 25% حل ومسابقات</div>
-                            <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-600 block"></span> 40% رياضة وراحة</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <div id="quizTab" class="hidden">
-            <div id="quizApp" class="bg-white rounded-3xl shadow-xl military-shadow p-6 sm:p-8 border border-gray-100 transition-all duration-300">
-                
-                <div id="subjectSelectionView" class="space-y-6">
-                    <div class="text-center space-y-2">
-                        <h2 class="text-3xl font-extrabold text-slate-900">اختر مادة لمراجعتها</h2>
-                        <p class="text-gray-500 max-w-md mx-auto">اختبارات ذكية مبنية بالكامل على منهاج الرابعة متوسط للتحضير الفردي.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-                        <button onclick="selectSubject('math')" class="flex flex-col items-center justify-center p-6 bg-blue-50 border-2 border-blue-100 rounded-2xl hover:border-slate-600 hover:bg-slate-100/50 transition-all duration-300 group">
-                            <span class="text-5xl mb-4 group-hover:scale-110 transition-transform">📐</span>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">الرياضيات</h3>
-                            <span class="text-[10px] bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">10 أسئلة متوفرة</span>
-                        </button>
-                        <button onclick="selectSubject('arabic')" class="flex flex-col items-center justify-center p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl hover:border-slate-600 hover:bg-slate-100/50 transition-all duration-300 group">
-                            <span class="text-5xl mb-4 group-hover:scale-110 transition-transform">✍️</span>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">اللغة العربية</h3>
-                            <span class="text-[10px] bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">10 أسئلة متوفرة</span>
-                        </button>
-                        <button onclick="selectSubject('physics')" class="flex flex-col items-center justify-center p-6 bg-red-50 border-2 border-red-100 rounded-2xl hover:border-slate-600 hover:bg-slate-100/50 transition-all duration-300 group">
-                            <span class="text-5xl mb-4 group-hover:scale-110 transition-transform">⚛️</span>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">فيزياء-تكنولوجيا</h3>
-                            <span class="text-[10px] bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">10 أسئلة متوفرة</span>
-                        </button>
-                        <button onclick="selectSubject('biology')" class="flex flex-col items-center justify-center p-6 bg-teal-50 border-2 border-teal-100 rounded-2xl hover:border-slate-600 hover:bg-slate-100/50 transition-all duration-300 group">
-                            <span class="text-5xl mb-4 group-hover:scale-110 transition-transform">🧬</span>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1 text-center">علوم الطبيعة والحياة</h3>
-                            <span class="text-[10px] bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">10 أسئلة متوفرة</span>
-                        </button>
-                    </div>
-                    <div class="mt-8 border-t border-gray-100 pt-6">
-                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">🏆 آخر المترشحين في المنافسة الحرة</h3>
-                        <ul id="leaderboardList" class="space-y-2">
-                            <li class="p-3 text-center text-gray-400 text-sm">جاري تحديث لوحة الصدارة المباشرة...</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="difficultySelectionView" class="hidden space-y-6">
-                    <div class="flex items-center justify-between">
-                        <button onclick="backToSubjects()" class="text-sm font-semibold text-slate-600 hover:text-slate-800 transition">↩️ العودة للمواد</button>
-                        <span id="difficultySubjectBadge" class="px-4 py-1 rounded-full text-xs font-bold text-white bg-slate-800"></span>
-                    </div>
-                    <div class="text-center space-y-2">
-                        <h2 class="text-2xl font-extrabold text-slate-900">حدد درجة صعوبة الأسئلة</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-                        <button onclick="selectDifficultyLevel('سهل')" class="flex flex-col items-center justify-center p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl hover:border-slate-600 transition duration-300">
-                            <span class="text-4xl mb-2">🟢</span><h3 class="text-lg font-bold text-slate-900">مستوى سهل</h3>
-                        </button>
-                        <button onclick="selectDifficultyLevel('متوسط')" class="flex flex-col items-center justify-center p-6 bg-amber-50 border-2 border-amber-100 rounded-2xl hover:border-slate-600 transition duration-300">
-                            <span class="text-4xl mb-2">🟡</span><h3 class="text-lg font-bold text-slate-900">مستوى متوسط</h3>
-                        </button>
-                        <button onclick="selectDifficultyLevel('صعب')" class="flex flex-col items-center justify-center p-6 bg-red-50 border-2 border-red-100 rounded-2xl hover:border-slate-600 transition duration-300">
-                            <span class="text-4xl mb-2">🔴</span><h3 class="text-lg font-bold text-slate-900">مستوى صعب</h3>
-                        </button>
-                    </div>
-                </div>
-
-                <div id="questionCountSelectionView" class="hidden space-y-6">
-                    <div class="flex items-center justify-between">
-                        <button onclick="backToDifficulty()" class="text-sm font-semibold text-slate-600 hover:text-slate-800 transition">↩️ العودة لاختيار الصعوبة</button>
-                        <span id="countSelectionBadge" class="px-4 py-1 rounded-full text-xs font-bold text-white bg-slate-800"></span>
-                    </div>
-                    <div class="text-center space-y-2">
-                        <h2 class="text-2xl font-extrabold text-slate-900">حدد عدد أسئلة الاختبار</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4" id="countButtonsContainer"></div>
-                </div>
-
-                <div id="quizView" class="hidden space-y-6">
-                    <div class="flex items-center justify-between">
-                        <button onclick="abortQuiz()" class="text-sm font-semibold text-red-600 hover:text-red-800 transition">↩️ إلغاء والعودة للبداية</button>
-                        <span id="subjectBadge" class="px-4 py-1 rounded-full text-xs font-bold text-white bg-slate-800"></span>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-xs font-semibold text-gray-500">
-                            <span>تقدم الإجابة</span><span id="progressText"></span>
-                        </div>
-                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div id="progressBar" class="bg-slate-700 h-3 transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-gray-100 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span id="difficultyBadge" class="px-3 py-0.5 rounded-full text-xs font-extrabold text-white"></span>
-                        </div>
-                        <h2 id="questionText" class="text-xl font-bold text-gray-800 leading-relaxed"></h2>
-                    </div>
-                    <div id="optionsContainer" class="grid grid-cols-1 gap-3"></div>
-                </div>
-
-                <div id="resultView" class="hidden text-center space-y-6">
-                    <span class="text-6xl animate-bounce inline-block">🎉</span>
-                    <h2 class="text-3xl font-extrabold text-green-600">اكتمل الاختبار بنجاح!</h2>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-gray-100 max-w-sm mx-auto shadow-inner">
-                        <span class="text-sm font-semibold text-gray-500 block mb-1">النتيجة النهائية</span>
-                        <span id="finalScoreContainer" class="text-5xl font-black text-slate-900" style="direction: ltr; display: inline-block;">
-                            <span id="finalScoreText">0</span> / 100
-                        </span>
-                    </div>
-
-                    <div id="pdfDownloadContainer"></div>
-
-                    <div id="registerForm" class="bg-slate-50 border border-slate-100 p-6 rounded-2xl space-y-4 max-w-md mx-auto">
-                        <h3 class="font-bold text-slate-900">سجل اسمك في لوحة الصدارة</h3>
-                        <div class="flex gap-2">
-                            <input type="text" id="participantName" placeholder="أدخل اسمك الكريم..." class="flex-grow p-3 rounded-xl border border-gray-200 outline-none focus:border-amber-500 bg-white text-sm">
-                            <button onclick="submitScore()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 rounded-xl transition text-sm">حفظ</button>
-                        </div>
-                    </div>
-                    <div class="pt-2">
-                        <button onclick="abortQuiz()" class="text-sm font-bold text-blue-600 hover:underline">🔄 جولة جديدة</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </main>
 
-    <div id="notificationToast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 px-5 py-3 rounded-xl shadow-lg text-white font-semibold text-sm z-50"></div>
-
-    <footer class="bg-slate-900 text-gray-400 py-4 text-center border-t border-slate-800 text-xs">
-        <p>© 2026 بوابة دليل التميز. منصة تفاعلية تطوعية فردية.</p>
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-4 px-4 text-center">
+        <p class="text-[11px] text-slate-500 font-medium">
+            &copy; 2026 بوابة التحضير الفردي المستقلة. مبادرة تضامنية من إعداد: ب طارق.
+        </p>
+        <p class="text-[9px] text-slate-600 mt-1 max-w-2xl mx-auto">
+            توضيح قانوني: هذا الموقع لا يمثل إدارة مدارس أشبال الأمة، ولا يمثل وزارة الدفاع الوطني، ولا يعبر عن أي هيئة عسكرية رسمية في الجزائر. تم تطوير وبرمجة هذا الموقع كجهود تطوعية بحتة.
+        </p>
     </footer>
 
+    <!-- Interactive JavaScript Core Logic -->
     <script>
+        // قاعدة البيانات التجريبية للمراجعة السريعة
         const quizDatabase = {
             math: {
                 title: "الرياضيات",
-                questions: {
-                    "سهل": [
-                        { q: "ما هو القاسم المشترك الأكبر (PGCD) للعددين 15 و 10؟", o: ["5", "2", "3", "10"], a: 0 },
-                        { q: "إذا كان 2x = 10 فإن القيمة الحقيقية للمجهول x هي:", o: ["2", "5", "8", "20"], a: 1 },
-                        { q: "العدد الناطق المستنتج من الكسر 4/2 هو عدد:", o: ["طبيعي", "أصم", "سالب", "غير تام"], a: 0 },
-                        { q: "جذر العدد 81 يساوي:", o: ["7", "8", "9", "10"], a: 2 },
-                        { q: "مجموع قيس زوايا المثلث الكلية هي:", o: ["90°", "180°", "270°", "360°"], a: 1 },
-                        { q: "ما هي قيمة الكسر 100/4؟", o: ["20", "25", "30", "50"], a: 1 },
-                        { q: "إذا كان طول ضلع مربع هو 4 سم، فإن مساحته تساوي:", o: ["8 سم²", "12 سم²", "16 سم²", "20 سم²"], a: 2 },
-                        { q: "الكسر غير القابل للاختزال من بين الكسور التالية هو:", o: ["5/7", "4/8", "10/15", "9/12"], a: 0 },
-                        { q: "حل المعادلة x - 7 = 3 هو:", o: ["4", "10", "-4", "21"], a: 1 },
-                        { q: "العدد المساوي لـ 10 أس 3 (10³) هو:", o: ["30", "100", "1000", "300"], a: 2 }
-                    ],
-                    "متوسط": [
-                        { q: "حل الجملة: x + y = 5 و x - y = 1 يعطي الثنائية التالية:", o: ["x=3, y=2", "x=4, y=1", "x=2, y=3", "x=5, y=0"], a: 0 },
-                        { q: "الكتابة العلمية للعدد 0.0034 هي:", o: ["3.4 × 10⁻³", "34 × 10⁻⁴", "3.4 × 10³", "0.34 × 10⁻²"], a: 0 },
-                        { q: "عبارة نشر المتطابقة الشهيرة (x + 3)² هي:", o: ["x² + 9", "x² + 6x + 9", "x² + 3x + 9", "x² - 6x + 9"], a: 1 },
-                        { q: "إذا كان تان المجرى tan(α) = 1 فإن قيس الزاوية α هو:", o: ["30°", "45°", "60°", "90°"], a: 1 },
-                        { q: "المتراجحة 2x > 8 يكون حلها كل قيم x الحقيقية حيث:", o: ["x > 4", "x < 4", "x > 16", "x = 4"], a: 0 },
-                        { q: "طول الوتر في مثلث قائم طول ضلعيه القائمين 3 سم و 4 سم هو:", o: ["5 سم", "6 سم", "7 سم", "25 سم"], a: 0 },
-                        { q: "معامل التوجيه للدالة الخطية f(x) = -3x هو:", o: ["3", "-3", "0", "1"], a: 1 },
-                        { q: "صورة العدد 2 بالدالة f(x) = 2x + 1 هي:", o: ["3", "4", "5", "6"], a: 2 },
-                        { q: "العدد الحقيقي الذي مبرهنته تحسب الأطوال المتوازية في المثلث هو:", o: ["طاليس", "فيثاغورث", "أرخميدس", "إقليدس"], a: 0 },
-                        { q: "الإنحراف المعياري هو مقياس من مقاييس:", o: ["النزعة المركزية", "التشتت", "الترتيب", "النسب المئوية"], a: 1 }
-                    ],
-                    "صعب": [
-                        { q: "القيمة المضبوطة لـ cos(60°) هي:", o: ["0.5", "0.86", "1", "0"], a: 0 },
-                        { q: "تحليل العبارة x² - 25 هو:", o: ["(x-5)(x-5)", "(x-5)(x+5)", "(x+25)(x-1)", "عبارة أولية"], a: 1 },
-                        { q: "إذا علمت أن sin(x) = 0.6 فإن cos²(x) تساوي بالتقريب:", o: ["0.4", "0.64", "0.8", "0.16"], a: 1 },
-                        { q: "المسافة بين النقطتين A(1,2) و B(4,6) في معلم متعامد ومتجانس تساوي:", o: ["5", "7", "25", "3.5"], a: 0 },
-                        { q: "نصف قطر الدائرة المحيطة بمثلث قائم طول وتره 10 سم هو:", o: ["5 سم", "10 سم", "2.5 سم", "7.5 سم"], a: 0 },
-                        { q: "مجموعة حلول المعادلة x² = 7 هي:", o: ["7 و -7", "جذر 7 و -جذر 7", "لا يوجد حلول", "49"], a: 1 },
-                        { q: "الدالة التآلفية التي تمر بالنقطتين (0,2) و (1,5) دستورها هو:", o: ["f(x) = 3x + 2", "f(x) = 2x + 3", "f(x) = 5x", "f(x) = -3x + 2"], a: 0 },
-                        { q: "القيمة الكلية لـ PGCD(2024, 4) هي:", o: ["1", "2", "4", "0"], a: 2 },
-                        { q: "في الدوران الذي زاويته 180°، تتحول النقطة إلى نقطة أخرى تكون بالنسبة لها:", o: ["محور تناظر", "مركز تناظر", "عمودية عليها", "مطابقة لها"], a: 1 },
-                        { q: "شُعاعان لهما نفس المنحى والاتجاه والطول هما شعاعان:", o: ["متعاكسان", "متعامدان", "متساويان", "مرتبطان خطياً بالنفي"], a: 2 }
-                    ]
-                }
+                icon: "📐",
+                questions: [
+                    { q: "إذا كان حقل مستطيل الشكل محيطه 120م وطوله 40م، فما هو عرضه؟", a: ["20م", "30م", "15م", "25م"], c: 0 },
+                    { q: "احسب القيمة التالية: 25 % من العدد 800 تساوي؟", a: ["150", "200", "250", "300"], c: 1 },
+                    { q: "اشترى تاجر بضاعة بمبلغ 5000 دج وباعها بربح قدره 15%، ما هو ثمن البيع؟", a: ["5500 دج", "5750 دج", "6000 دج", "5250 دج"], c: 1 }
+                ]
             },
             arabic: {
                 title: "اللغة العربية",
-                questions: {
-                    "سهل": [
-                        { q: "ما هو إعراب كلمة 'التلميذ' في جملة: جاء التلميذُ؟", o: ["فاعل مرفوع", "مفعول به", "مبتدأ", "مضاف إليه"], a: 0 },
-                        { q: "الاسم الذي يدل على من وقع عليه الفعل يسمى:", o: ["اسم الفاعل", "اسم المفعول", "الصفة المشبهة", "البدل"], a: 1 },
-                        { q: "الفعل 'كتبتُ' هو فعل ماضٍ مبني على:", o: ["الفتح", "السكون", "الضم", "حذف النون"], a: 1 },
-                        { q: "أي من الحروف التالية يعتبر حرف عطف؟", o: ["في", "ثم", "لم", "أن"], a: 1 },
-                        { q: "الكلمة التي تحتها خط في 'طالعتُ كِتاباً ممتعاً'، تعرب ممتعاً:", o: ["حال", "نعت (صفة)", "تمييز", "مستثنى"], a: 1 },
-                        { q: "جمع كلمة 'قاضي' هو:", o: ["قضاة", "قاضون", "قاضيات", "أقضية"], a: 0 },
-                        { q: "الهمزة في كلمة 'أقبلَ' هي همزة:", o: ["وصل", "قطع", "متطرفة", "متوسطة"], a: 1 },
-                        { q: "نوع الأسلوب في 'لا تكذبْ':", o: ["أسلوب إنشائي طلبي (نهي)", "أسلوب خبري", "أسلوب تمني", "أسلوب أمر"], a: 0 },
-                        { q: "صيغة المبالغة من الفعل 'صبر' هي:", o: ["صابر", "صبور", "مصبور", "مستصبر"], a: 1 },
-                        { q: "الاسم المرفوع الذي يبتدئ به الكلام يعرب:", o: ["خيراً", "مبتدأ", "فاعلاً", "اسم كان"], a: 1 }
-                    ],
-                    "متوسط": [
-                        { q: "نوع الصورة البيانية في 'عضّنا الدهر بنابه':", o: ["استعارة مكنية", "استعارة تصريحية", "تشبيه بليغ", "كناية"], a: 0 },
-                        { q: "تعرب كلمة 'كلّ' في جملة 'سجدتُ لله كلَّ السجود':", o: ["مفعول مطلق ناصب", "نائب مفعول مطلق", "مفعول به", "ظرف زمان"], a: 1 },
-                        { q: "الاسم المقترن بـ (أل) بعد اسم الإشارة يعرب غالباً:", o: ["بدل كل من كل", "عطف بيان", "نعت", "كل ما سبق صحيح"], a: 3 },
-                        { q: "ما نوع المحسن البديعي بين 'العلم نور والجهل ظلام'؟", o: ["طباق سلب", "جناس تام", "مقابلة", "سجع"], a: 2 },
-                        { q: "الاسم المنصوب بعد اسم التفضيل (أكثر، أفضل) يعرب غالباً:", o: ["حال", "تمييز", "مفعول به ثانٍ", "مستثنى"], a: 1 },
-                        { q: "نوع المنادى في 'يا مجتهداً، واصل عملك':", o: ["شبيهاً بالمضاف", "نكرة غير مقصودة", "نكرة مقصودة", "علم مفرد"], a: 1 },
-                        { q: "حرف الجر الزائد في جملة 'ليس كمثله شيء' هو:", o: ["الباء", "الكاف", "من", "اللام"], a: 1 },
-                        { q: "الفعل المضارع المعتل الآخر بالألف يجزم وعلامة جزمه:", o: ["السكون", "حذف حرف العلة", "الفتحة المقدرة", "ثبوت النون"], a: 1 },
-                        { q: "اسم الزمان من الفعل 'التقى' هو:", o: ["ملتقى", "تلاقي", "لقاء", "ملتقي"], a: 0 },
-                        { q: "الاسم الممنوع من الصرف لعوض علة واحدة مما يلي هو:", o: ["أحمد", "مساجد", "عثمان", "فاطمة"], a: 1 }
-                    ],
-                    "صعب": [
-                        { q: "ما محل الجملة الواقعة بين قوسين من الإعراب: العلم (ينير العقول)؟", o: ["في محل رفع خبر", "في محل نصب حال", "في محل جر نعت", "لا محل لها من الإعراب"], a: 0 },
-                        { q: "إعراب الجملة بعد 'إذْ' الحينية يكون دائماً في محل:", o: ["نصب حال", "جر مضاف إليه", "رفع خبر", "جزم جواب الشرط"], a: 1 },
-                        { q: "الاسم الواقع بعد 'لوْلا' الامتناعية يعرب دائماً:", o: ["مبتدأ وخبره محذوف وجوباً", "فاعلاً لفعل محذوف", "مفعولاً به مقدم", "اسم مجرور لفظاً"], a: 0 },
-                        { q: "نوع الأسلوب في جملة 'بئس الخلقُ الكذبُ':", o: ["أسلوب شرط", "أسلوب ذم", "أسلوب مدح", "أسلوب تعجب"], a: 1 },
-                        { q: "ما هو المحل الإعرابي لجملة جواب الشرط غير الجازم؟", o: ["في محل جزم", "لا محل لها من الإعراب", "في محل نصب", "في محل جر مضاف إليه"], a: 1 },
-                        { q: "إذا زاد الفعل الثلاثي على ثلاثة أحرف، فإن مصدره يكون:", o: ["سماعياً", "قياسياً", "مؤولاً", "ميمياً"], a: 1 },
-                        { q: "كلمة 'سُكَّرى' تمنع من الصرف لعلة واحدة وهي ختمها بـ:", o: ["ألف التأنيث المقصورة", "ألف التأنيث الممدودة", "صيغة منتهى الجموع", "العلمية والعجمة"], a: 0 },
-                        { q: "في جملة 'رأيت الوالدَ نفسَه'، كلمة نفسَه تعرب:", o: ["توكيد لفظي", "توكيد معنوي", "بدل اشتمال", "مفعول به ثانٍ"], a: 1 },
-                        { q: "اسم الآلة القياسي على وزن 'مِفْعال' من بين ما يلي هو:", o: ["قلم", "مفتاح", "سيد", "مبرد"], a: 1 },
-                        { q: "نوع الهمزة في اسم المفعول 'مقروء':", o: ["همزة متوسطة على السطر", "همزة متطرفة على السطر", "همزة قطع أولية", "همزة وصل"], a: 1 }
-                    ]
-                }
+                icon: "✍️",
+                questions: [
+                    { q: "ما هو إعراب الكلمة المسطرة في جملة: 'العلمُ <span class='text-amber-400 underline'>ينيرُ</span> العقولَ'؟", a: ["فعل مضارع والفاعلة ضمير مستتر والجملة الفعلية في محل رفع خبر", "فعل ماض مبني على الفتح", "اسم مجرور بالكسرة الظاهرة", "مبتدأ مؤخر مرفوع"], c: 0 },
+                    { q: "عين الجمع الصحيح لكلمة 'صحراء':", a: ["صحاري", "صحراوات", "صحاريون", "أصحر"], c: 1 },
+                    { q: "ما نوع الصورة البيانية في قوله: 'أطل الفجر يبتسم للمجاهدين'؟", a: ["تشبيه بليغ", "كناية عن صفة", "استعارة مكنية", "مجاز مرسل"], c: 2 }
+                ]
             },
             physics: {
-                title: "فيزياء-تكنولوجيا",
-                questions: {
-                    "سهل": [
-                        { q: "ما هي وحدة قياس القوة في الجملة الدولية للوحدات (SI)؟", o: ["النيوتن (N)", "الجول (J)", "الوات (W)", "الفولت (V)"], a: 0 },
-                        { q: "الرمز الكيميائي الصحيح لغاز ثنائي أكسيد الكربون هو:", o: ["CO2", "O2", "H2O", "CO"], a: 0 },
-                        { q: "الأجسام المتماثلة في الشحنة الكهربائية (مثلاً موجبة مع موجبة):", o: ["تتجاذب", "تتنافر", "لا تتأثر", "تتلاحم"], a: 1 },
-                        { q: "الحالة الفيزيائية للحديد في درجة الحرارة العادية (25°م) هي:", o: ["سائلة", "غازية", "صلبة", "بلازمية"], a: 2 },
-                        { q: "وحدة قياس المقاومة الكهربائية هي:", o: ["الأوم", "الأمبير", "الفولت", "الفراد"], a: 0 },
-                        { q: "الجهاز المستعمل لقياس قيمة التوتر الكهربائي هو:", o: ["الأمبيرمتر", "الفولطمتر", "الواتمتر", "الميزان"], a: 1 },
-                        { q: "سرعة الضوء في الفراغ تساوي تقريباً:", o: ["300,000 كم/ثا", "150,000 كم/ثا", "1,000 كم/ثا", "300 كم/ثا"], a: 0 },
-                        { q: "من النواقل الكهربائية الجيدة من بين المواد التالية:", o: ["الخشب", "النحاس", "البلاستيك", "الزجاج"], a: 1 },
-                        { q: "الرمز النظامي للمصباح الكهربائي في الدارة هو دائرة في وسطها:", o: ["حرف A", "حرف V", "علامة X", "خط مستقيم"], a: 2 },
-                        { q: "الغاز الضروري لحدوث عملية الاحتراق هو غاز:", o: ["الأكسجين", "النيتروجين", "الهيدروجين", "الأرغون"], a: 0 }
-                    ],
-                    "متوسط": [
-                        { q: "عند دلك قضيب من الزجاج بقطعة حرير، فإنه يشحن بشحنة كهربائية:", o: ["موجبة", "سالبة", "متعادلة", "معدومة"], a: 0 },
-                        { q: "الجهاز المستخدم لقياس الشدة الكهربائية ويوصل في الدارة على التسلسل هو:", o: ["الأمبيرمتر", "الفولطمتر", "الأوممتر", "المحرار"], a: 0 },
-                        { q: "وفق قانون أوم، العلاقة الرياضية بين التوتر (U)، المقاومة (R) والشدة (I) هي:", o: ["U = R × I", "U = R / I", "U = I / R", "R = U × I"], a: 0 },
-                        { q: "التيار المتناوب الجيبي يرمز له بالرمز المالي العالمي التالي:", o: ["DC", "AC (أو ~)", "=+=", "G"], a: 1 },
-                        { q: "ثقل الجسم يتغير بتغير المكان نتيجة لتغير:", o: ["كتلة الجسم", "الجاذبية الأرضية", "حجم الجسم", "درجة الحرارة"], a: 1 },
-                        { q: "الوحدة المستعملة للتعبير عن الطاقة الكهربائية المستهلكة في الفواتير هي:", o: ["الجول", "الكيلوواط ساعي (kWh)", "الوات", "الأمبير"], a: 1 },
-                        { q: "المحلول المائي الشاردي يتميز بأنه:", o: ["عازل للتيار", "ناقل للتيار الكهربائي", "ملون دائماً", "حامضي حتماً"], a: 1 },
-                        { q: "صيغة شوارد الهيدروجين المسؤول عن الحموضة هي:", o: ["H+", "OH-", "Cl-", "Na+"], a: 0 },
-                        { q: "عند حدوث ظاهرة انكسار الضوء، يتغير في الشعاع الضوئي:", o: ["لونه فقط", "اتجاه مساره و سرعته", "شدته المطلقة فقط", "شحناته الطيفية"], a: 1 },
-                        { q: "شرط توازن جسم صلب خاضع لقوتين هو أن تكون القوتان:", o: ["لهما نفس المنحى ومتعاكستان في الاتجاه ومتساويتان في الشدة", "مختلفتان في المنحى والشدة", "متطابقتان في الاتجاه والمنحى", "معدومتان أصلاً"], a: 0 }
-                    ],
-                    "صعب": [
-                        { q: "حسب مبدأ الفعلين المتبادلين، إذا أثرت جملة A على B بقوة فإن B تؤثر على A بقوة تكون:", o: ["مساوية لها في الشدة ومعاكسة في الاتجاه", "أكبر منها في الشدة ونفس الاتجاه", "أقل منها في الشدة ومعاكسة في الاتجاه", "معدومة تماماً"], a: 0 },
-                        { q: "العلاقة التي تربط بين التواتر (f) والدور (T) في التيار المتناوب هي:", o: ["f = 1 / T", "f = T / 1", "f = T × 2", "f = T²"], a: 0 },
-                        { q: "عند التحليل الكهربائي لمحلول كلور النحاس، يتجه غاز الكلور نحو القطب:", o: ["المصعد (الموجب)", "المهبط (السالب)", "يبقى في المحلول", "يتجه نحو القطبين معاً"], a: 0 },
-                        { q: "قيمة التوتر الكهربائي الأعظمي (Umax) وعلاقته بالتوتر الفعال (Ueff) تعبر كالتالي:", o: ["Umax = Ueff × جذر 2", "Umax = Ueff / جذر 2", "Umax = Ueff + 2", "Umax = Ueff × 2"], a: 0 },
-                        { q: "يقصد بالكتلة الحجمية لمادة ما:", o: ["حجم المادة مقسوماً على وزنها", "كتلة المادة مقسومة على حجمها", "مجموع الكتلة والحجم الكلي", "مكعب طول الضلع المادي"], a: 1 },
-                        { q: "السرعة الابتدائية لجسم مقذوف شاقولياً نحو الأعلى عند وصوله لأقصى ارتفاع تصبح:", o: ["أعظمية", "معدومة (0 م/ثا)", "نصف قيمتها الأصلية", "ثابتة لا تتغير"], a: 1 },
-                        { q: "شاردة الحديد الثنائي صيغتها الكيميائية هي:", o: ["Fe²⁺", "Fe³⁺", "Fe⁻", "Cl⁻"], a: 0 },
-                        { q: "الفعل الميكانيكي المؤثر من طرف السوائل على الأجسام المغمورة فيها يسمى:", o: ["قوة الثقل", "دافع ارخميدس", "قوة الاحتكاك للمائع", "قوة الشد الميكانيكي"], a: 1 },
-                        { q: "الضوء الأبيض عند مروره عبر موشور زجاجي يحدث له ظاهرة:", o: ["امتصاص كلي", "تبدد (تحلل)", "انعكاس مرآتي", "شحن استاتيكي"], a: 1 },
-                        { q: "تُحمى الأجهزة الكهربائية في المنازل من الدارات المستقصرة والشدائد المرتفعة بواسطة:", o: ["المنصهرة والقاطع التفاضلي", "المقاومة الضوئية", "المكثفات", "المولد التفرعي"], a: 0 }
-                    ]
-                }
+                title: "العلوم الفيزيائية والتكنولوجيا",
+                icon: "🧪",
+                questions: [
+                    { q: "ما هي وحدة قياس القوة الكهربائية أو التوتر الكهربائي في النظام الدولي؟", a: ["الأمبير", "الفولت", "الواط", "الأوم"], c: 1 },
+                    { q: "عند تحول المادة من الحالة الصلبة مباشرة إلى الحالة الغازية تسمى هذه الظاهرة بـ:", a: ["التسامي (التصعيد)", "التكاثف", "الانصهار", "التجمد"], c: 0 },
+                    { q: "الرمز الكيميائي الصحيح لذرة النحاس هو:", a: ["Fe", "Cl", "Cu", "Ca"], c: 2 }
+                ]
             },
             biology: {
                 title: "علوم الطبيعة والحياة",
-                questions: {
-                    "سهل": [
-                        { q: "أين تبدأ عملية هضم النشاء كيميائياً في جسم الإنسان？", o: ["في المعدة", "في الفم بواسطة اللعاب", "في المعي الدقيق", "في المريء"], a: 1 },
-                        { q: "ما هي المغذيات الناتجة عن الهضم الكامل للبروتينات؟", o: ["أحماض دسمة", "غلوكوز", "أحماض أمينية", "نشاء مبسط"], a: 2 },
-                        { q: "العضو المسؤول عن امتصاص المغذيات ونقلها إلى الدم واللمف هو:", o: ["المعي الغليظ", "المعي الدقيق (الزغابات المعوية)", "المعدة", "البنكرياس"], a: 1 },
-                        { q: "الغاز الذي تثبته الكريات الحمراء (الهيموغلوبين) في الرئتين لنقله للخلايا هو:", o: ["النيتروجين", "ثنائي أكسيد الكربون", "الأكسجين (O2)", "الهيدروجين"], a: 2 },
-                        { q: "ما هو المكون الدموي المسؤول عن تخثر الدم وإيقاف النزيف؟", o: ["الكريات الحمراء", "الكريات البيضاء", "الصفائح الدموية", "المصورة (البلازما)"], a: 2 },
-                        { q: "كم عدد القواعد الآزوتية المشكلة للحمض النووي؟", o: ["2", "3", "4", "5"], a: 2 },
-                        { q: "أي الأعضاء التالية يعتبر عضواً حسياً يستقبل التنبيهات الخارجية؟", o: ["العضلة", "الجلد", "الغدة الإفرازية", "الكبد"], a: 1 },
-                        { q: "العصارة التي يفرزها الكبد وتخزن في الحويصل الصفراوي تساعد في هضم:", o: ["السكريات", "البروتينات", "الدسم (الليبيدات)", "الفيتامينات"], a: 2 },
-                        { q: "تسمى استجابة العضوية الفورية واللاإرادية الناتجة عن تنبيه حسي بـ:", o: ["الحركة الإرادية", "المنعكس الفطري (اللاإرادي)", "الإحساس الواعي", "الذاكرة العصبية"], a: 1 },
-                        { q: "الخط الدفاعي الأول للجسم ضد الميكروبات يتمثل في:", o: ["الكريات البيضاء", "الحواجز الطبيعية (كالجلد والدموع)", "الأجسام المضادة", "الخلايا اللمفاوية"], a: 1 }
-                    ],
-                    "متوسط": [
-                        { q: "ما هو الإنزيم المسؤول عن تفكيك البروتينات في المعدة؟", o: ["الأميلاز", "البروتياز 1 (البيبسين)", "الليباز", "المالتاز"], a: 1 },
-                        { q: "المغذيات التي تسلك الطريق اللمفاوي (البلغمي) بعد الامتصاص هي:", o: ["الماء والأملاح فقط", "الأحماض الأمينية والغلوكوز", "الأحماض الدسمة والغليسيرول", "الفيتامينات المنحلة في الماء"], a: 2 },
-                        { q: "يتكون القوس العصبي للمنعكس الشوكي بالترتيب من:", o: ["مستقبل حسي، عصب حسي، مركز عصبي (نخاع شوكي)، عصب حركي، عضو منفذ", "عضلة، عصب، مخ، مستقبل حسي", "جلد، مخ، عصب، عضلة", "نخاع شوكي، عصب حركي، عصب حسي، جلد"], a: 0 },
-                        { q: "ما هو المركز العصبي المسؤول عن الأفعال والحركات الإرادية؟", o: ["النخاع الشوكي", "ساحة الحركة في القشرة المخية", "البصلة السيسائية", "المخيخ"], a: 1 },
-                        { q: "ميكروب عصوي غير ممرض يستعمل في صناعة المشتقات اللبنية يقصد به:", o: ["عصيات كوخ", "خميرة اللبن (اللاكتوباسيلوس)", "فيروس الإنفلونزا", "بكتيريا الكزاز"], a: 1 },
-                        { q: "تتميز التفاعلات الالتهابية الموضعية بظهور أربع علامات وهي:", o: ["احمرار، حرارة، انتفاخ، ألم", "برودة، شحوب، نزيف، تشنج", "فقدان حس، غيبوبة، تعرق، سعال", "احمرار وضيق تنفس وفقط"], a: 0 },
-                        { q: "تنتج الخلايا اللمفاوية البائية (LB) عند تحسسها بمولد ضد معين:", o: ["سموم خلوية", "أجسام مضادة نوعية", "فيتامينات دفاعية", "مادة الهيستامين"], a: 1 },
-                        { q: "الخلايا الدموية التي لا تحتوي على نواة ولها شكل قرصي مقعر هي:", o: ["اللمفاويات", "الكريات الحمراء", "البلعميات الكبيرة", "الخلايا الصارية"], a: 1 },
-                        { q: "أي من المغذيات التالية يعتبر مصدراً أساسياً لإنتاج الطاقة في الخلية؟", o: ["الأحماض الأمينية", "الماء", "الغلوكوز (السكريات البسيطة)", "الكالسيوم"], a: 2 },
-                        { q: "يتسبب نقص فيتامين (ج - Vitamin C) في مرض غريب يصيب اللثة يسمى:", o: ["الحفر (الأسقربوط)", "الكساح", "فقر الدم", "السل"], a: 0 }
-                    ],
-                    "صعب": [
-                        { q: "تتميز الأجسام المضادة بخاصية 'النوعية'، وماذا يعني ذلك؟", o: ["تتفاعل مع أي مولد ضد تصادفه", "ترتبط فقط بمولد الضد الذي حث على إنتاجها (قفل ومفتاح)", "تنتقل عبر اللمف فقط ولا تدخل الدم", "تفكك الأغذية كيميائياً في الأمعاء"], a: 1 },
-                        { q: "ماذا يحدث لنسبة الغلوكوز في الدم (التحلون) عند مروره بالكبد بعد وجبة غنية بالسكريات؟", o: ["ترتفع جداً لتتجاوز 3 غ/ل", "تنخفض وتعدل إلى القيمة النظامية (حوالي 1 غ/ل) بتخزينه كغليكوجين", "تتحول مباشرة إلى أحماض أمينية بنية", "لا تطرأ عليها أي تبدلات كبدية"], a: 1 },
-                        { q: "اللقاح يكسب العضوية مناعة ... بينما المصل ينقل للعضوية مناعة ...", o: ["مؤقتة / دائمة", "نشيطة بطيئة وباقية / سلبية فورية ومؤقتة", "خلوية / خلطية دائماً", "لا نوعية / نوعية مطلقاً"], a: 1 },
-                        { q: "زمرة دموية لا تحتوي كرياتها الحمراء على أي مولد ضد (لا A ولا B) وتعتبر معطياً عاماً هي:", o: ["زمرة AB", "زمرة A", "زمرة B", "زمرة O"], a: 3 },
-                        { q: "مادة كيميائية تفرزها الخلايا الصارية (Mastocytes) وتتسبب في ظهور أعراض الحساسية (الأرجية):", o: ["الأنسولين", "الهيستامين", "الأميلاز", "الأدرينالين"], a: 1 },
-                        { q: "الخلايا المناعية المسؤولة عن رفض الطعوم الجلدية والسرطانية (المناعة الخلوية) هي:", o: ["الخلايا اللمفاوية التائية (LT)", "الخلايا اللمفاوية البائية (LB)", "الكريات الحمراء", "الصفائح المصلية"], a: 0 },
-                        { q: "تنتقل الرسالة العصبية على طول الليف العصبي على شكل:", o: ["تيار مائي دقيق", "إشارات كهربائية (موجة زوال استقطاب)", "مركبات بروتينية متحركة", "غازات منشطة مضغوطة"], a: 1 },
-                        { q: "ما هو الدور الرئيسي للأحماض الأمينية في العضوية (الخلية)؟", o: ["إنتاج الطاقة السريعة", "البناء والنمو والصيانة (بروتينات الجسم)", "تذويب الدهون الزائدة", "مقاومة الصدمات الميكانيكية"], a: 1 },
-                        { q: "تسمى منطقة الاتصال بين خليتين عصبيتين أو خلية عصبية وعضلة بـ:", o: ["المشبك (Synapse)", "الليف العضلي للمحور", "العصبون المركزي", "الغمد النخاعي"], a: 0 },
-                        { q: "ما هي المادة البروتينية الموجودة في الكريات الحمراء والتي تعطي الدم لونه الأحمر وتثبت الغازات؟", o: ["الألبومين", "الهيموغلوبين (خضاب الدم)", "الفايبرين", "الغلوبولين"], a: 1 }
-                    ]
-                }
+                icon: "🔬",
+                questions: [
+                    { q: "ما هو العضو المسؤول الأساسي عن امتصاص المغذيات المهضومة في الجهاز الهضمي للإنسان؟", a: ["المعدة", "المعي الدقيق", "المعي الغليظ", "المرئ"], c: 1 },
+                    { q: "أي من العناصر التالية يعتبر المنتج الأول والأساسي في السلسلة الغذائية؟", a: ["النباتات الخضراء", "المستهلك الأول", "المستهلك الثاني", "الفطريات البكتيرية"], c: 0 },
+                    { q: "ما هي الوظيفة الحيوية التي يقوم بها النبات الأخضر بامتصاص CO2 وطرح O2 في الضوء؟", a: ["التنفس الخلوي", "التركيب الضوئي", "النتح النباتي", "الامتصاص الجذري"], c: 1 }
+                ]
             }
         };
 
         let currentSubject = "";
-        let currentDifficulty = "";
-        let totalQuestionsAllowed = 0;
-        let selectedQuestions = [];
         let currentQuestionIndex = 0;
         let userScore = 0;
 
+        // دالة تبديل التبويبات الرئيسية
         function switchTab(tab) {
-            const gTab = document.getElementById('guideTab');
-            const qTab = document.getElementById('quizTab');
-            const gBtn = document.getElementById('guideTabBtn');
-            const qBtn = document.getElementById('quizTabBtn');
+            const tabQuiz = document.getElementById('tabQuiz');
+            const tabGuide = document.getElementById('tabGuide');
+            const sectionQuiz = document.getElementById('sectionQuiz');
+            const sectionGuide = document.getElementById('sectionGuide');
 
-            if (tab === 'guide') {
-                gTab.classList.remove('hidden'); qTab.classList.add('hidden');
-                gBtn.classList.add('active-tab'); qBtn.classList.remove('active-tab');
+            if(tab === 'quiz') {
+                tabQuiz.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow bg-amber-500 text-slate-950";
+                tabGuide.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/30";
+                sectionQuiz.classList.remove('hidden');
+                sectionGuide.classList.add('hidden');
             } else {
-                qTab.classList.remove('hidden'); gTab.classList.add('hidden');
-                qBtn.classList.add('active-tab'); gBtn.classList.remove('active-tab');
+                tabGuide.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow bg-amber-500 text-slate-950";
+                tabQuiz.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/30";
+                sectionGuide.classList.remove('hidden');
+                sectionQuiz.classList.add('hidden');
+                exitQuiz();
             }
         }
 
-        window.switchTab = switchTab;
-
-        function selectSubject(subjectKey) {
-            if (!quizDatabase[subjectKey]) return;
+        // دالة بدء مراجعة مادة معينة
+        function startQuiz(subjectKey) {
             currentSubject = subjectKey;
-            document.getElementById('subjectSelectionView').classList.add('hidden');
-            document.getElementById('difficultySelectionView').classList.remove('hidden');
-            document.getElementById('difficultySubjectBadge').innerText = quizDatabase[subjectKey].title;
-        }
-
-        window.selectSubject = selectSubject;
-
-        function backToSubjects() {
-            document.getElementById('difficultySelectionView').classList.add('hidden');
-            document.getElementById('subjectSelectionView').classList.remove('hidden');
-        }
-
-        window.backToSubjects = backToSubjects;
-
-        function selectDifficultyLevel(level) {
-            currentDifficulty = level;
-            const pool = quizDatabase[currentSubject].questions[level] || [];
-            
-            if(pool.length === 0) {
-                showNotification("لا توجد أسئلة متوفرة لهذا المستوى حالياً.", "error");
-                return;
-            }
-
-            document.getElementById('difficultySelectionView').classList.add('hidden');
-            document.getElementById('questionCountSelectionView').classList.remove('hidden');
-            document.getElementById('countSelectionBadge').innerText = `${quizDatabase[currentSubject].title} - ${level}`;
-            
-            const container = document.getElementById('countButtonsContainer');
-            container.innerHTML = "";
-            
-            const counts = [3, 5, 10];
-            counts.forEach(count => {
-                let disabledAttr = pool.length < count ? "opacity-50 cursor-not-allowed" : "";
-                let clickAction = pool.length >= count ? `onclick="startQuizWithCount(${count})"` : "";
-                
-                container.innerHTML += `
-                    <button ${clickAction} class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-gray-200 rounded-2xl hover:border-amber-500 transition duration-300 ${disabledAttr}">
-                        <span class="text-3xl mb-2">📝</span>
-                        <h3 class="text-lg font-bold text-slate-900">${count} أسئلة</h3>
-                        <p class="text-xs text-gray-400 mt-1">المتوفر: ${pool.length}</p>
-                    </button>
-                `;
-            });
-        }
-
-        window.selectDifficultyLevel = selectDifficultyLevel;
-
-        function backToDifficulty() {
-            document.getElementById('questionCountSelectionView').classList.add('hidden');
-            document.getElementById('difficultySelectionView').classList.remove('hidden');
-        }
-
-        window.backToDifficulty = backToDifficulty;
-
-        function startQuizWithCount(count) {
-            totalQuestionsAllowed = count;
-            const pool = quizDatabase[currentSubject].questions[currentDifficulty];
-            selectedQuestions = [...pool].sort(() => 0.5 - Math.random()).slice(0, count);
-            
             currentQuestionIndex = 0;
             userScore = 0;
 
-            document.getElementById('questionCountSelectionView').classList.add('hidden');
+            document.getElementById('subjectView').classList.add('hidden');
+            document.getElementById('resultView').classList.add('hidden');
             document.getElementById('quizView').classList.remove('hidden');
-            renderQuestion();
+
+            document.getElementById('subjectTitle').innerText = quizDatabase[subjectKey].title;
+            document.getElementById('subjectIcon').innerText = quizDatabase[subjectKey].icon;
+
+            showQuestion();
         }
 
-        window.startQuizWithCount = startQuizWithCount;
+        // عرض السؤال والخيارات
+        function showQuestion() {
+            const subjectData = quizDatabase[currentSubject];
+            const currentQuestion = subjectData.questions[currentQuestionIndex];
+            const totalQuestions = subjectData.questions.length;
 
-        function renderQuestion() {
-            if (currentQuestionIndex >= selectedQuestions.length) {
-                endQuiz();
-                return;
-            }
-
-            const currentQ = selectedQuestions[currentQuestionIndex];
-            document.getElementById('subjectBadge').innerText = quizDatabase[currentSubject].title;
-            document.getElementById('progressText').innerText = `${currentQuestionIndex + 1} من أصل ${selectedQuestions.length}`;
-            
-            const progressPercent = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            // تحديث شريط والعداد
+            document.getElementById('progressText').innerText = `السؤال ${currentQuestionIndex + 1} من ${totalQuestions}`;
+            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
             document.getElementById('progressBar').style.width = `${progressPercent}%`;
 
-            const diffBadge = document.getElementById('difficultyBadge');
-            diffBadge.innerText = currentDifficulty;
-            if(currentDifficulty === 'سهل') diffBadge.className = "px-3 py-0.5 rounded-full text-xs font-extrabold text-white bg-green-600";
-            else if(currentDifficulty === 'متوسط') diffBadge.className = "px-3 py-0.5 rounded-full text-xs font-extrabold text-white bg-amber-500";
-            else diffBadge.className = "px-3 py-0.5 rounded-full text-xs font-extrabold text-white bg-red-600";
+            // كتابة السؤال
+            document.getElementById('questionText').innerHTML = currentQuestion.q;
 
-            document.getElementById('questionText').innerText = currentQ.q;
-
+            // إنشاء الخيارات
             const optionsContainer = document.getElementById('optionsContainer');
             optionsContainer.innerHTML = "";
 
-            currentQ.o.forEach((option, idx) => {
-                optionsContainer.innerHTML += `
-                    <button onclick="checkAnswer(${idx})" class="w-full text-right p-4 border border-gray-200 rounded-xl hover:bg-slate-50 font-semibold text-gray-700 transition active:scale-[0.99]">
-                        ${option}
-                    </button>
-                `;
+            currentQuestion.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 p-3.5 rounded-xl text-right font-semibold transition-all text-sm text-slate-200 active:scale-[0.99]";
+                btn.innerHTML = `<span class='inline-block bg-slate-900 w-6 h-6 text-center rounded-md text-amber-400 font-bold ml-2 text-xs leading-6'>${index + 1}</span> ${option}`;
+                btn.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(btn);
             });
         }
 
-        function checkAnswer(selectedIdx) {
-            const currentQ = selectedQuestions[currentQuestionIndex];
-            if (selectedIdx === currentQ.a) {
-                userScore += Math.round(100 / selectedQuestions.length);
-                showNotification("إجابة صحيحة، أحسنت!", "success");
-            } else {
-                showNotification(`إجابة خاطئة! الصحيح هو: ${currentQ.o[currentQ.a]}`, "error");
+        // التحقق من صحة الخيار المختار واحتساب التقييم
+        function checkAnswer(selectedIndex) {
+            const subjectData = quizDatabase[currentSubject];
+            const currentQuestion = subjectData.questions[currentQuestionIndex];
+
+            if(selectedIndex === currentQuestion.c) {
+                userScore += Math.ceil(100 / subjectData.questions.length);
             }
+
             currentQuestionIndex++;
-            setTimeout(renderQuestion, 1200);
+
+            if(currentQuestionIndex < subjectData.questions.length) {
+                showQuestion();
+            } else {
+                endQuiz();
+            }
         }
 
-        window.checkAnswer = checkAnswer;
-
-function endQuiz() {
+        // انتهاء الاختبار وتوليد زر التحميل المباشر المتوافق مع ملفات GitHub الفردية
+        function endQuiz() {
             if(userScore > 100) userScore = 100;
             document.getElementById('quizView').classList.add('hidden');
             document.getElementById('resultView').classList.remove('hidden');
             document.getElementById('finalScoreText').innerText = userScore;
-            document.getElementById('registerForm').classList.remove('hidden');
 
-            // تم تحديث الروابط هنا بناءً على ملفاتك الجديدة في مستودع GitHub
+            // تم تصحيح وضبط الروابط لتطابق أسماء الملفات الجديدة تماماً بدون رموز زائدة
             const pdfLinks = {
                 math: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A7%D8%AA1.pdf",
                 arabic: "https://boureghdatarek-hub.github.io/Ashbal/%D8%A7%D9%84%D9%84%D8%BA%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.pdf",
-                physics: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85-%D9%81%D9%8A%D8%B2%D9%8A%D8%A1%D9%8A%D8%A9-%D8%B1%D8%A7%D8%A1%D8%B9%D8%A9-%D9%85%D8%AA%D9%88%D8%B3%D8%B7-.pdf", 
-                biology: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%B9%D8%A9%20%D9%8A%20%D8%A7%D9%84%D8%AD%D9%8A%D8%A7%D8%A9.pdf" 
+                physics: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85-%D9%81%D9%8a%D8%b2%D9%8a%D8%a7%D8%a6%D9%8a%D8%a9-%D8%b1%D8%a7%D8%a8%D8%b9%D8%a9-%D9%85%D8%aa%D9%88%D8%b3%D8%b7.pdf", 
+                biology: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D8%B7%D8%A8%D9%8a%D8%B9%D8%A9%20%D9%88%D8%A7%D9%84%D8%AD%D9%8A%D8%A7%D8%A9.pdf" 
             };
 
             const downloadContainer = document.getElementById('pdfDownloadContainer');
             if (downloadContainer && pdfLinks[currentSubject]) {
-                // يعود النص الآن ديناميكياً حسب اسم المادة الصحيحة دون استبدال مؤقت
                 let btnText = `تحميل ملف ${quizDatabase[currentSubject].title} PDF`;
 
                 downloadContainer.innerHTML = `
-                    <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl max-w-sm mx-auto mt-4 text-center">
-                        <p class="text-xs text-amber-800 font-bold mb-2">🎁 يمكنك الآن تحميل دليل المراجعة الشامل بصيغة PDF:</p>
+                    <div class="bg-amber-500/10 border border-amber-500/20 p-4 rounded-2xl max-w-sm mx-auto mt-4 text-center">
+                        <p class="text-xs text-amber-400 font-bold mb-2.5">🎁 يمكنك الآن تحميل دليل المراجعة الشامل بصيغة PDF:</p>
                         <a href="${pdfLinks[currentSubject]}" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl transition text-sm shadow">
                             <span>📥</span> ${btnText}
                         </a>
@@ -681,41 +368,13 @@ function endQuiz() {
             }
         }
 
-        function abortQuiz() {
+        // العودة للرئيسية وإلغاء الجلسة الحالية
+        function exitQuiz() {
             document.getElementById('quizView').classList.add('hidden');
             document.getElementById('resultView').classList.add('hidden');
-            document.getElementById('difficultySelectionView').classList.add('hidden');
-            document.getElementById('questionCountSelectionView').classList.add('hidden');
-            document.getElementById('subjectSelectionView').classList.remove('hidden');
+            document.getElementById('subjectView').classList.remove('hidden');
+            currentSubject = "";
         }
-
-        window.abortQuiz = abortQuiz;
-
-        async function submitScore() {
-            const nameInput = document.getElementById('participantName');
-            const name = nameInput.value.trim();
-            if(!name) {
-                showNotification("يرجى إدخال اسمك أولاً لتسجيل النتيجة.", "error");
-                return;
-            }
-            if(window.saveScoreToFirebase) {
-                await window.saveScoreToFirebase(name, userScore, quizDatabase[currentSubject].title, currentDifficulty, totalQuestionsAllowed);
-                showNotification("تم إرسال وحفظ نتيجتك بنجاح!", "success");
-                document.getElementById('registerForm').classList.add('hidden');
-            }
-        }
-
-        window.submitScore = submitScore;
-
-        function showNotification(msg, type) {
-            const toast = document.getElementById('notificationToast');
-            toast.innerText = msg;
-            toast.className = `fixed bottom-5 right-5 px-5 py-3 rounded-xl shadow-lg text-white font-semibold text-sm z-50 transition-all duration-300 translate-y-0 opacity-100 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
-            setTimeout(() => {
-                toast.className = "fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 px-5 py-3 rounded-xl shadow-lg text-white font-semibold text-sm z-50";
-            }, 3500);
-        }
-        window.showNotification = showNotification;
     </script>
 </body>
 </html>
