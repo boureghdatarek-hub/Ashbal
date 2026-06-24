@@ -171,27 +171,134 @@
             </div>
         </div>
 
-        <!-- Tab 2: Guide Section -->
-        <div id="sectionGuide" class="hidden bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-xl space-y-6 max-w-3xl mx-auto">
-            <div class="border-b border-slate-700/50 pb-4 text-center sm:text-right">
-                <h2 class="text-xl sm:text-2xl font-black text-amber-400">دليل التوجيه والتحضير لمسابقات أشبال الأمة</h2>
-                <p class="text-xs text-slate-400 mt-1">إرشادات هامة وشروط الانتقاء المتبعة لمرحلة التعليم المتوسط.</p>
+        <!-- Tab 2: Moped Interactive Guide Section (Improved & Interactive) -->
+        <div id="sectionGuide" class="hidden space-y-6 max-w-4xl mx-auto">
+            <!-- Top Banner -->
+            <div class="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center backdrop-blur-sm shadow-xl">
+                <h2 class="text-2xl sm:text-3xl font-black text-amber-400">دليل التوجيه والتخطيط لمسابقات أشبال الأمة</h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl mx-auto">لوحة تفاعلية متكاملة تشرح شروط الانتقاء، خارطة المسار الزمني والتحليلي، ومفاتيح التفوق الميداني.</p>
             </div>
-            
-            <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl">
-                    <h3 class="font-bold text-amber-400 mb-1 flex items-center gap-1.5">📌 شروط التسجيل المبدئي الأساسية:</h3>
-                    <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 pr-2">
-                        <li>الحصول على شهادة التعليم الابتدائي بمعدل يساوي أو يفوق السن النظري للمسابقة.</li>
-                        <li>اللياقة البدنية والصحية الجيدة والمقبولة من طرف المصالح الطبية العسكرية المعنية.</li>
-                        <li>النجاح في فحص وانتقاء المسابقة بناء على ترتيب المعدلات الوطنية.</li>
-                    </ul>
+
+            <!-- Interactivity Menu -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button onclick="switchGuideTab('g-conditions')" id="btn-g-conditions" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow">📌 شروط الانتقاء</button>
+                <button onclick="switchGuideTab('g-timeline')" id="btn-g-timeline" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">⏳ خارطة المسابقة</button>
+                <button onclick="switchGuideTab('g-charts')" id="btn-g-charts" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">📊 رسوم بيانية وتوزيع</button>
+                <button onclick="switchGuideTab('g-tips')" id="btn-g-tips" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">💡 نصائح وتوجيهات</button>
+            </div>
+
+            <!-- Sub Section 1: Conditions -->
+            <div id="sub-g-conditions" class="guide-content-block bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-4">
+                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">📑 شروط القبول والتسجيل المبدئي:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl flex flex-col items-center text-center space-y-2">
+                        <span class="text-3xl p-2 bg-amber-500/10 rounded-xl text-amber-400">📈</span>
+                        <h4 class="font-bold text-sm text-slate-200">المعدل الدراسي</h4>
+                        <p class="text-xs text-slate-400">حيازة شهادة التعليم الابتدائي بمعدل سنوي ممتاز يطابق شروط المديرية لضمان ترتيب استحقاقي وطني عادل.</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl flex flex-col items-center text-center space-y-2">
+                        <span class="text-3xl p-2 bg-amber-500/10 rounded-xl text-amber-400">🩺</span>
+                        <h4 class="font-bold text-sm text-slate-200">السلامة الطبية</h4>
+                        <p class="text-xs text-slate-400">اجتياز الكشف الطبي الصارم تحت إشراف المصالح الطبية العسكرية بنجاح (سلامة النظر، البنية الجسدية، والقدرة العامة).</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl flex flex-col items-center text-center space-y-2">
+                        <span class="text-3xl p-2 bg-amber-500/10 rounded-xl text-amber-400">🏃‍♂️</span>
+                        <h4 class="font-bold text-sm text-slate-200">اللياقة البدنية</h4>
+                        <p class="text-xs text-slate-400">التمتع بلياقة بدنية ممتازة واجتياز اختبار السرعة، التحمل، والقدرة الميدانية لملاءمة أسلوب العيش والانضباط داخل المدارس.</p>
+                    </div>
                 </div>
-                <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl">
-                    <h3 class="font-bold text-amber-400 mb-1 flex items-center gap-1.5">📝 مراحل وسير المسابقة والامتحانات:</h3>
-                    <p class="text-xs text-slate-400 leading-normal">
-                        تتضمن المسابقة اختبارات كتابية تفاعلية في المواد الأساسية للطور: الرياضيات، اللغة العربية، والعلوم والفيزياء، بالإضافة إلى فحص طبي دقيق واختبارات لياقة بدنية لضمان القدرة على مواكبة النظام والبرنامج الدراسي الخاص بالمدارس.
-                    </p>
+            </div>
+
+            <!-- Sub Section 2: Timeline Diagram -->
+            <div id="sub-g-timeline" class="guide-content-block hidden bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-4">
+                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">🧭 المراحل الزمنية والتنظيمية للمسابقة:</h3>
+                <div class="relative border-r-2 border-amber-500/30 mr-4 space-y-6 py-2">
+                    <div class="relative pr-6">
+                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-slate-900"></div>
+                        <h4 class="font-bold text-sm text-amber-400">المرحلة الأولى: التسجيل الإلكتروني</h4>
+                        <p class="text-xs text-slate-400 mt-1">تعبئة البيانات الشخصية ورفع كشوف النقاط عبر المنصة الرسمية لوزارة الدفاع لفرز الطلبات مبدئياً.</p>
+                    </div>
+                    <div class="relative pr-6">
+                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-slate-900"></div>
+                        <h4 class="font-bold text-sm text-amber-400">المرحلة الثانية: الاستدعاء والفحص الطبي</h4>
+                        <p class="text-xs text-slate-400 mt-1">خضوع المترشحين المقبولين أولياً للفحوصات والتحاليل الطبية الشاملة والتأكد من معايير الطول والوزن والنظر.</p>
+                    </div>
+                    <div class="relative pr-6">
+                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-slate-900"></div>
+                        <h4 class="font-bold text-sm text-amber-400">المرحلة الثالثة: الاختبارات الرياضية والكتابية</h4>
+                        <p class="text-xs text-slate-400 mt-1">تقييم اللياقة الميدانية متبوعاً بالفحص المعرفي الكتابي في المواد الأساسية (الرياضيات، اللغة العربية، والعلوم والتكنولوجيا).</p>
+                    </div>
+                    <div class="relative pr-6">
+                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-emerald-400 ring-4 ring-slate-900"></div>
+                        <h4 class="font-bold text-sm text-emerald-400">المرحلة النهائية: القبول والالتحاق</h4>
+                        <p class="text-xs text-slate-400 mt-1">إرسال الاستدعاءات الرسمية وبدء الاندماج التربوي والعسكري في المدارس حسب الاستحقاق.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Section 3: Charts (CSS/SVG Based Diagrams) -->
+            <div id="sub-g-charts" class="guide-content-block hidden bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-100">📊 رسوم بيانية: الوزن النسبي وتوزيع العلامات</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">توضح الأشكال أدناه توزيع الأهمية النسبية للمواد الأساسية في الاختبار الكتابي.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <!-- Bar Chart Layout -->
+                    <div class="space-y-3 bg-slate-900/40 p-4 rounded-2xl border border-slate-800">
+                        <h4 class="text-xs font-bold text-slate-300 mb-2">📊 معاملات الأهمية النسبية للمواد الأساسية:</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>📐 الرياضيات (أعلى أهمية هندسية وتحليلية)</span><span class="text-amber-400 font-bold">40%</span></div>
+                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-amber-400 h-full rounded-full" style="width: 40%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>✍️ اللغة العربية (البيان وصياغة المفاهيم)</span><span class="text-amber-400 font-bold">35%</span></div>
+                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-amber-500 h-full rounded-full" style="width: 35%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>🧪 العلوم الفيزيائية والتكنولوجية (الفهم التطبيقي)</span><span class="text-slate-300 font-bold">15%</span></div>
+                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-slate-600 h-full rounded-full" style="width: 15%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>🔬 علوم الطبيعة والحياة (المعارف الحيوية)</span><span class="text-slate-300 font-bold">10%</span></div>
+                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-slate-700 h-full rounded-full" style="width: 10%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Radial / Circle Vector Info Box -->
+                    <div class="flex items-center gap-4 bg-slate-900/40 p-5 rounded-2xl border border-slate-800 justify-center">
+                        <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
+                            <path class="text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="text-amber-400" stroke-width="3.2" stroke-dasharray="75, 100" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div>
+                            <h4 class="font-bold text-sm text-amber-400">معدل الفرز والاستحقاق</h4>
+                            <p class="text-xs text-slate-400 leading-normal mt-1">تعتمد المنظومة على اختيار أعلى <span class="text-emerald-400 font-bold">75%</span> من المترشحين الناجحين في الفحص الطبي والبدني لولوج الاختبارات الكتابية المفصلية.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Section 4: Pro Tips -->
+            <div id="sub-g-tips" class="guide-content-block hidden bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-4">
+                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">💡 نصائح وتوجيهات التفوق والنجاح للطلاب:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
+                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">⏰ 1. إدارة وتنظيم الوقت:</h4>
+                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">تدرب على حل المسائل الحسابية والنصوص النحوية والأسئلة العلمية مع توقيت زمني دقيق لبناء المهارة والسرعة المطلوبة أثناء الامتحان الحقيقي.</p>
+                    </div>
+                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
+                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">🧘‍♂️ 2. الثقة والثبات النفسي:</h4>
+                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">الراحة البدنية والنفسية ليلة الفحص والامتحان ضرورية جداً؛ تساعد على تدفق الأفكار بوضوح، التركيز العالي، وتجنب التشتت والارتباك.</p>
+                    </div>
+                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
+                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">📜 3. شمولية قراءة الأسئلة:</h4>
+                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">تأكد دائماً من قراءة معطيات المسائل بدقة في الفيزياء والرياضيات، وفهم المعنى العام المُراد في اللغة العربية قبل الشروع في التدوين.</p>
+                    </div>
+                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
+                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">🏃‍♂️ 4. اللياقة المستمرة:</h4>
+                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">المواظبة على تمارين الجري الخفيف والتمارين السويدية البسيطة يومياً قبل المسابقة يعزز من كفاءة القلب ويضمن تجاوز الفحص البدني بسهولة.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -227,7 +334,7 @@
                 questions: [
                     { q: "ما هو إعراب الكلمة المسطرة في جملة: 'العلمُ <span class='text-amber-400 underline'>ينيرُ</span> العقولَ'؟", a: ["فعل مضارع والفاعلة ضمير مستتر والجملة الفعلية في محل رفع خبر", "فعل ماض مبني على الفتح", "اسم مجرور بالكسرة الظاهرة", "مبتدأ مؤخر مرفوع"], c: 0 },
                     { q: "عين الجمع الصحيح لكلمة 'صحراء':", a: ["صحاري", "صحراوات", "صحاريون", "أصحر"], c: 1 },
-                    { q: "ما نوع الصورة البيانية في قوله: 'أطل الفجر يبتسم للمجاهدين'؟", a: ["تشبيه بليغ", "كناية عن صفة", "استعارة مكنية", "مجاز مرسل"], c: 2 }
+                    { q: "ما نوع الصورة البيانية في قوله: 'أطل الفجر يبتسم للمجاهدين' framework؟", a: ["تشبيه بليغ", "كناية عن صفة", "استعارة مكنية", "مجاز مرسل"], c: 2 }
                 ]
             },
             physics: {
@@ -273,6 +380,23 @@
                 sectionQuiz.classList.add('hidden');
                 exitQuiz();
             }
+        }
+
+        // دالة التنقل داخل التبويبات الفرعية للدليل التفاعلي المطور
+        function switchGuideTab(targetSubId) {
+            // إخفاء كل العناصر الداخلية
+            document.querySelectorAll('.guide-content-block').forEach(block => {
+                block.classList.add('hidden');
+            });
+            // إزالة ألوان النشاط من أزرار الدليل
+            document.querySelectorAll('.guide-tab-btn').forEach(btn => {
+                btn.className = "guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40";
+            });
+
+            // إظهار العنصر المحدد
+            document.getElementById(`sub-${targetSubId}`).classList.remove('hidden');
+            // تمييز الزر المختار
+            document.getElementById(`btn-${targetSubId}`).className = "guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow";
         }
 
         // دالة بدء مراجعة مادة معينة
@@ -347,7 +471,7 @@
             const pdfLinks = {
                 math: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A7%D8%AA1.pdf",
                 arabic: "https://boureghdatarek-hub.github.io/Ashbal/%D8%A7%D9%84%D9%84%D8%BA%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.pdf",
-                physics: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85-%D9%81%D9%8a%D8%b2%D9%8a%D8%a7%D8%a6%D9%8a%D8%a9-%D8%b1%D8%a7%D8%a8%D8%b9%D8%a9-%D9%85%D8%aa%D9%88%D8%b3%D8%b7.pdf", 
+                physics: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85-%D9%81%D9%8a%D8%b2%D9%8a%D8%a7%D8%a6%D9%8a%D8%a9-%D8%b1%D8%a7%D8%b3%D8%b9%D8%a9-%D9%85%D8%aa%D9%88%D8%b3%D8%b7.pdf", 
                 biology: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D8%B7%D8%A8%D9%8a%D8%B9%D8%A9%20%D9%88%D8%A7%D9%84%D8%AD%D9%8A%D8%A7%D8%A9.pdf" 
             };
 
