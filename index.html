@@ -122,7 +122,38 @@
                         🚪 إنهاء الخروج
                     </button>
                 </div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6 max-w-lg mx-auto w-full">
+    <button onclick="switchGuideTab('conditions')" id="btn-g-conditions" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow">📌 شروط الانتقاء</button>
+    <button onclick="switchGuideTab('timeline')" id="btn-g-timeline" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">⏳ خارطة المسابقة</button>
+    <button onclick="switchGuideTab('todo')" id="btn-g-todo" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">📋 الآن ما الذي يجب فعله</button>
+</div>
 
+<div id="sub-g-todo" class="guide-content-block hidden bg-slate-800/30 border border-amber-700/40 rounded-3xl p-6 space-y-4">
+    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2">📋 قائمة التحقق للتوجه للمسابقة:</h3>
+    <p class="text-xs text-slate-400 italic">يجب الالتحاق بمركز المسابقة ابتداءً من الساعة السابعة صباحاً مصحوباً بالوثائق التالية:</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ul class="text-xs text-slate-300 space-y-2">
+            <li class="flex items-center gap-2"><span>✅</span> <b>الاستدعاء:</b> يجب طباعة وإحضار الاستدعاء.</li>
+            <li class="flex items-center gap-2"><span>✅</span> <b>كشف النقاط:</b> نسخة من كشف نقاط السنة الرابعة متوسط.</li>
+            <li class="flex items-center gap-2"><span>✅</span> <b>إثبات الهوية:</b> بطاقة التعريف الوطنية أو المدرسية.</li>
+            <li class="flex items-center gap-2"><span>✅</span> <b>شهادة الميلاد:</b> نسخة أصلية.</li>
+            <li class="flex items-center gap-2"><span>✅</span> <b>لوازم الرياضة:</b> بدلة رياضية.</li>
+        </ul>
+
+        <div class="bg-slate-900/60 p-3 border border-amber-900/30 rounded-xl">
+            <h4 class="font-bold text-amber-500 mb-2 text-[10px] uppercase">تحاليل مخبرية (أقل من 21 يوم):</h4>
+            <ul class="text-[10px] text-slate-300 space-y-1">
+                <li>• تحليل كيميائي للبول.</li>
+                <li>• تحاليل الدم (FNS - BW - HBS - HBC - HIV).</li>
+                <li>• فصيلة الدم ونسبة السكر في الدم.</li>
+                <li>• تحليل وظائف الكلى والكبد.</li>
+                <li>• مخطط كهربائية القلب (ECG).</li>
+                <li>• الأشعة الصدرية (Radiographie thoracique).</li>
+            </ul>
+        </div>
+    </div>
+</div>
                 <!-- Progress Bar -->
                 <div class="space-y-1.5">
                     <div class="flex justify-between text-xs font-bold text-slate-400">
