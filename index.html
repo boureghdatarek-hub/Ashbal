@@ -181,11 +181,12 @@
             </div>
 
             <!-- Interactivity Menu -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <button onclick="switchGuideTab('g-conditions')" id="btn-g-conditions" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow">📌 شروط الانتقاء</button>
-                <button onclick="switchGuideTab('g-timeline')" id="btn-g-timeline" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">⏳ خارطة المسابقة</button>
-                <button onclick="switchGuideTab('g-charts')" id="btn-g-charts" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">📊 رسوم بيانية وتوزيع</button>
-                <button onclick="switchGuideTab('g-tips')" id="btn-g-tips" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">💡 نصائح وتوجيهات</button>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <button onclick="switchGuideTab('g-conditions')" id="btn-g-conditions" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold transition-all bg-amber-500 text-slate-950 shadow">📌 الشروط</button>
+                <button onclick="switchGuideTab('g-timeline')" id="btn-g-timeline" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">⏳ خارطة المسابقة</button>
+                <button onclick="switchGuideTab('g-docs')" id="btn-g-docs" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">📂 الوثائق المطلوبة</button> <!-- الزر الجديد -->
+                <button onclick="switchGuideTab('g-charts')" id="btn-g-charts" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">📊 التوزيع</button>
+                <button onclick="switchGuideTab('g-tips')" id="btn-g-tips" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">💡 نصائح</button>
             </div>
 
             <!-- Sub Section 1: Conditions -->
@@ -266,6 +267,37 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sub Section: Documents (New) -->
+<div id="sub-g-docs" class="guide-content-block hidden bg-slate-800/30 border border-emerald-500/20 rounded-3xl p-6 space-y-4">
+    <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">📂 الملف الكامل للوثائق المطلوبة:</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- الإدارية -->
+        <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+            <h4 class="font-bold text-sm text-slate-200 mb-3 underline decoration-amber-500">الوثائق الإدارية</h4>
+            <ul class="text-xs text-slate-400 space-y-2">
+                <li>✅ الاستدعاء (يستخرج من الموقع الرسمي).</li>
+                <li>✅ نسخة من كشف النقاط (سنة 4 متوسط).</li>
+                <li>✅ بطاقة التعريف الوطنية / المدرسية.</li>
+                <li>✅ شهادة الميلاد الأصلية.</li>
+                <li>✅ بدلة رياضية مناسبة.</li>
+            </ul>
+        </div>
+        <!-- الطبية -->
+        <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+            <h4 class="font-bold text-sm text-slate-200 mb-3 underline decoration-emerald-500">الملف الطبي (يجب ألا يتعدى 21 يوماً)</h4>
+            <ul class="text-xs text-slate-400 space-y-1.5">
+                <li>🧪 تحاليل الدم (FNS, BW, HBS, HIV).</li>
+                <li>🩸 فصيلة الدم ونسبة السكر.</li>
+                <li>🔬 تحليل وظائف الكلى والكبد.</li>
+                <li>🫀 مخطط استقطاب القلب (ECG).</li>
+                <li>🫁 الأشعة السينية للصدر (Radio).</li>
+                <li>⚖️ تحليل كيميائي للبول.</li>
+            </ul>
+        </div>
+    </div>
+    <p class="text-[10px] text-amber-400 italic bg-amber-500/10 p-2 rounded-lg">تنبيه: يجب ختم وتوقيع جميع الوثائق الطبية من طرف الطبيب والمخبر المعتمد.</p>
+</div>
                     <!-- Radial / Circle Vector Info Box -->
                     <div class="flex items-center gap-4 bg-slate-900/40 p-5 rounded-2xl border border-slate-800 justify-center">
                         <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
