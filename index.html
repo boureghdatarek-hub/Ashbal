@@ -8,23 +8,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body class="bg-slate-900 text-slate-100 p-4">
+<body class="bg-slate-900 text-slate-100 p-4 min-h-screen">
 
-    <main class="max-w-4xl mx-auto">
-        <div class="flex justify-center gap-3 mb-6">
-            <button onclick="showDocSection('conditions')" class="py-2 px-4 rounded-xl bg-slate-800 text-sm font-bold">📌 الشروط</button>
-            <button onclick="showDocSection('docs')" class="py-2 px-4 rounded-xl bg-amber-500 text-slate-950 text-sm font-bold">📂 الوثائق المطلوبة</button>
-            <button onclick="showDocSection('timeline')" class="py-2 px-4 rounded-xl bg-slate-800 text-sm font-bold">⏳ الخارطة</button>
+    <main class="max-w-4xl mx-auto mt-10">
+        <div class="flex justify-center gap-3 mb-8">
+            <button onclick="showSection('conditions')" class="nav-btn py-2 px-6 rounded-xl bg-slate-800 text-sm font-bold hover:bg-slate-700">📌 الشروط</button>
+            <button onclick="showSection('docs')" class="nav-btn py-2 px-6 rounded-xl bg-amber-500 text-slate-950 text-sm font-bold">📂 الوثائق المطلوبة</button>
+            <button onclick="showSection('timeline')" class="nav-btn py-2 px-6 rounded-xl bg-slate-800 text-sm font-bold hover:bg-slate-700">⏳ الخارطة</button>
         </div>
 
-        <div id="docs-content" class="bg-slate-800/50 border border-emerald-500/30 rounded-3xl p-8 shadow-xl">
-            <h3 class="text-xl font-black text-emerald-400 mb-6 flex items-center gap-2">
-                📂 الملف الكامل للوثائق المطلوبة
-            </h3>
-            
+        <div id="docs" class="content-section bg-slate-800/50 border border-emerald-500/30 rounded-3xl p-8 shadow-xl">
+            <h3 class="text-xl font-black text-emerald-400 mb-6 border-b border-slate-700 pb-2">📂 الملف الكامل للوثائق المطلوبة</h3>
             <div class="grid md:grid-cols-2 gap-8">
                 <div>
-                    <h4 class="font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">الوثائق الإدارية</h4>
+                    <h4 class="font-bold text-slate-200 mb-3">الوثائق الإدارية</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
                         <li>✅ الاستدعاء (من الموقع الرسمي).</li>
                         <li>✅ نسخة كشف النقاط (سنة 4 متوسط).</li>
@@ -34,8 +31,8 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">الملف الطبي (أقل من 21 يوم)</h4>
-                    <ul class="space-y-1.5 text-sm text-slate-400">
+                    <h4 class="font-bold text-slate-200 mb-3">الملف الطبي (أقل من 21 يوم)</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
                         <li>🧪 تحاليل الدم (FNS, BW, HBS, HBC, HIV).</li>
                         <li>🩸 فصيلة الدم ونسبة السكر.</li>
                         <li>⚗️ تحليل كيميائي للبول.</li>
@@ -49,12 +46,19 @@
                 ⚠️ تنبيه: يجب ختم وتوقيع جميع الوثائق الطبية من طرف الطبيب والمخبر المعتمد.
             </p>
         </div>
+
+        <div id="conditions" class="content-section hidden p-8 text-center text-slate-400">قسم الشروط سيظهر هنا</div>
+        <div id="timeline" class="content-section hidden p-8 text-center text-slate-400">قسم الخارطة الزمنية سيظهر هنا</div>
     </main>
 
     <script>
-        function showDocSection(section) {
-            // منطق التبديل هنا
-            console.log("تم اختيار القسم: " + section);
+        function showSection(sectionId) {
+            // إخفاء جميع الأقسام
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // إظهار القسم المطلوب
+            document.getElementById(sectionId).classList.remove('hidden');
         }
     </script>
 </body>
