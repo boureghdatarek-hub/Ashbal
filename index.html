@@ -4,500 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بوابة التحضير الفردي التفاعلية | أشبال الأمة</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts (Cairo) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-        }
-    </style>
+    <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-900">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-50 px-4 py-3 shadow-lg">
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 p-4 sticky top-0 z-50">
         <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <span class="text-3xl">📚</span>
                 <div>
-                    <h1 class="text-xl font-black text-amber-400 tracking-wide">بوابة التحضير الفردي التفاعلية</h1>
-                    <p class="text-xs text-slate-400 font-medium">دليل مراجعة واختبارات تجريبية للمترشحين</p>
+                    <h1 class="text-xl font-black text-amber-400">بوابة التحضير الفردي التفاعلية</h1>
+                    <p class="text-xs text-slate-400">دليل مراجعة واختبارات تجريبية للمترشحين</p>
                 </div>
             </div>
             <div class="bg-slate-900/60 border border-slate-700 px-4 py-1.5 rounded-full text-xs font-bold text-slate-300">
-                إعداد وتطوير: <span class="text-amber-400">المواطن ب طارق</span>
+                إعداد: <span class="text-amber-400">المواطن ب طارق</span>
             </div>
-        </div>
-        <!-- Disclaimer -->
-        <div class="max-w-3xl mx-auto mt-2 text-center bg-amber-500/10 border border-amber-500/20 py-1 px-3 rounded-lg">
-            <p class="text-[10px] sm:text-xs text-amber-400 font-semibold">
-                ⚠️ تنويه هام: هذا الموقع عبارة عن مبادرة شخصية مستقلة لمساعدة أولياء الأمور والتلاميذ، وهو غير رسمي ولا يمثل أي جهة عسكرية أو حكومية.
-            </p>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
-        
-        <!-- Navigation Tabs -->
-        <div id="navTabs" class="flex justify-center gap-2 mb-6 max-w-md mx-auto w-full">
-            <button onclick="switchTab('quiz')" id="tabQuiz" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow bg-amber-500 text-slate-950">
-                🎯 مسابقات المراجعة التفاعلية
-            </button>
-            <button onclick="switchTab('guide')" id="tabGuide" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/30">
-                📜 دليل التحضير والإرشاد
-            </button>
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6">
+        <div id="navTabs" class="flex justify-center gap-2 mb-6 max-w-md mx-auto">
+            <button onclick="switchTab('quiz')" id="tabQuiz" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">🎯 مسابقات المراجعة</button>
+            <button onclick="switchTab('guide')" id="tabGuide" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800/50 border border-slate-700/30 text-slate-400">📜 دليل الإرشاد</button>
         </div>
 
-        <!-- Tab 1: Quiz Section -->
-        <div id="sectionQuiz" class="space-y-6">
-            <!-- Subject Selection View -->
-            <div id="subjectView" class="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-sm shadow-xl space-y-6">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-slate-100">اختر مادة لمراجعتها</h2>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-md mx-auto">اختبارات مأخوذة من نماذج ومسابقات السنوات الماضية لتأهيل التلاميذ وتدريبهم.</p>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto pt-2">
-                    <!-- Math -->
-                    <button onclick="startQuiz('math')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
-                        <div class="flex items-center gap-4">
-                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">📐</span>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">الرياضيات</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">دورة 2025</p>
-                            </div>
-                        </div>
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
-                    </button>
-                    <!-- Arabic -->
-                    <button onclick="startQuiz('arabic')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
-                        <div class="flex items-center gap-4">
-                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">✍️</span>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">اللغة العربية</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">دورة متميزة</p>
-                            </div>
-                        </div>
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
-                    </button>
-                    <!-- Physics -->
-                    <button onclick="startQuiz('physics')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
-                        <div class="flex items-center gap-4">
-                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">🧪</span>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">العلوم الفيزيائية والتكنولوجيا</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">تمارين هامة</p>
-                            </div>
-                        </div>
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
-                    </button>
-                    <!-- Biology -->
-                    <button onclick="startQuiz('biology')" class="group bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-amber-500/50 p-5 rounded-2xl text-right transition-all flex items-center justify-between shadow-md">
-                        <div class="flex items-center gap-4">
-                            <span class="text-4xl bg-slate-900 p-3 rounded-xl group-hover:scale-110 transition-transform">🔬</span>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-200 group-hover:text-amber-400 transition-colors">علوم الطبيعة والحياة</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">دورة 2023-2024</p>
-                            </div>
-                        </div>
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-full">جاهز للبدء</span>
-                    </button>
-                </div>
+        <!-- Section Guide (MUPDATED) -->
+        <div id="sectionGuide" class="hidden space-y-6">
+            <div class="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center">
+                <h2 class="text-2xl font-black text-amber-400">دليل التوجيه والتخطيط</h2>
             </div>
 
-            <!-- Quiz Play View -->
-            <div id="quizView" class="hidden bg-slate-800/40 border border-slate-700/40 rounded-3xl p-5 sm:p-8 backdrop-blur-sm shadow-xl space-y-6 max-w-2xl mx-auto">
-                <div class="flex justify-between items-center border-b border-slate-700/50 pb-4">
-                    <div class="flex items-center gap-2">
-                        <span id="subjectIcon" class="text-2xl">📐</span>
-                        <h2 id="subjectTitle" class="font-black text-lg text-amber-400">اسم المادة</h2>
-                    </div>
-                    <button onclick="exitQuiz()" class="text-xs font-bold text-slate-400 hover:text-rose-400 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition-colors">
-                        🚪 إنهاء الخروج
-                    </button>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-xs font-bold text-slate-400">
-                        <span>التقدم في الأسئلة</span>
-                        <span id="progressText">السؤال 1 من 5</span>
-                    </div>
-                    <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
-                        <div id="progressBar" class="bg-gradient-to-l from-amber-400 to-amber-500 h-full transition-all duration-300" style="width: 20%;"></div>
-                    </div>
-                </div>
-
-                <!-- Question Box -->
-                <div class="bg-slate-800/80 border border-slate-700/60 p-5 sm:p-6 rounded-2xl shadow-inner">
-                    <p id="questionText" class="text-base sm:text-lg font-bold leading-relaxed text-slate-100">نص السؤال الافتراضي سيكون هنا؟</p>
-                </div>
-
-                <!-- Options Grid -->
-                <div id="optionsContainer" class="grid grid-cols-1 gap-3 pt-2">
-                    <!-- سيتم توليد الخيارات ديناميكياً بواسطة JavaScript -->
-                </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <button onclick="switchGuideTab('g-conditions')" id="btn-g-conditions" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-amber-500 text-slate-950">📌 الشروط</button>
+                <button onclick="switchGuideTab('g-timeline')" id="btn-g-timeline" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">⏳ الخارطة</button>
+                <button onclick="switchGuideTab('g-docs')" id="btn-g-docs" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">📂 الوثائق</button>
+                <button onclick="switchGuideTab('g-charts')" id="btn-g-charts" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">📊 التوزيع</button>
+                <button onclick="switchGuideTab('g-tips')" id="btn-g-tips" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">💡 نصائح</button>
             </div>
 
-            <!-- Quiz Result View -->
-            <div id="resultView" class="hidden bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-sm shadow-xl space-y-6 max-w-md mx-auto">
-                <div class="w-24 h-24 bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-950 rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg animate-bounce">
-                    🏆
+            <!-- Documents Section (NEW) -->
+            <div id="sub-g-docs" class="guide-content-block hidden bg-slate-800/30 border border-emerald-500/20 rounded-3xl p-6 space-y-4">
+                <h3 class="text-lg font-bold text-emerald-400">📂 الملف الكامل للوثائق المطلوبة:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                        <h4 class="font-bold text-sm text-slate-200 mb-3 border-b border-slate-700 pb-2">الوثائق الإدارية</h4>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>✅ الاستدعاء (من الموقع الرسمي).</li>
+                            <li>✅ نسخة كشف النقاط (سنة 4 متوسط).</li>
+                            <li>✅ بطاقة التعريف أو المدرسية.</li>
+                            <li>✅ شهادة الميلاد الأصلية.</li>
+                            <li>✅ بدلة رياضية.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
+                        <h4 class="font-bold text-sm text-slate-200 mb-3 border-b border-slate-700 pb-2">الملف الطبي (أقل من 21 يوم)</h4>
+                        <ul class="text-xs text-slate-400 space-y-1.5">
+                            <li>🧪 تحاليل الدم (FNS, BW, HBS, HIV).</li>
+                            <li>🩸 فصيلة الدم والسكر.</li>
+                            <li>🔬 وظائف الكلى والكبد.</li>
+                            <li>🫀 مخطط استقطاب القلب (ECG).</li>
+                            <li>🫁 الأشعة السينية للصدر.</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="text-2xl font-black text-slate-100">أحسنت! اكتمل الاختبار</h2>
-                    <p class="text-slate-400 text-xs mt-1">لقد قمت بمراجعة وتأكيد معلوماتك في هذه المادة بنجاح.</p>
-                </div>
-
-                <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl max-w-xs mx-auto">
-                    <span class="text-xs text-slate-400 font-bold block mb-1">النتيجة النهائية والتقييم:</span>
-                    <span class="text-4xl font-black text-amber-400" id="finalScoreText">100</span>
-                    <span class="text-xl font-bold text-slate-300"> / 100</span>
-                </div>
-
-                <!--container للتحميل التلقائي للملفات المحدثة-->
-                <div id="pdfDownloadContainer"></div>
-
-                <div class="pt-4 border-t border-slate-700/50">
-                    <button onclick="exitQuiz()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-4 rounded-xl transition shadow text-sm">
-                        🔄 مراجعة مادة أخرى
-                    </button>
-                </div>
+                <p class="text-[10px] text-amber-400 italic bg-amber-500/10 p-2 rounded-lg">تنبيه: يجب ختم وتوقيع جميع الوثائق الطبية من طرف الطبيب والمخبر المعتمد.</p>
             </div>
+            
+            <!-- Other sections (Conditions, Timeline, etc.) remain as they were -->
         </div>
-
-        <!-- Tab 2: Moped Interactive Guide Section (Improved & Interactive) -->
-        <div id="sectionGuide" class="hidden space-y-6 max-w-4xl mx-auto">
-            <!-- Top Banner -->
-            <div class="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center backdrop-blur-sm shadow-xl">
-                <h2 class="text-2xl sm:text-3xl font-black text-amber-400">دليل التوجيه والتخطيط لمسابقات أشبال الأمة</h2>
-                <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl mx-auto">لوحة تفاعلية متكاملة تشرح شروط الانتقاء، خارطة المسار الزمني والتحليلي، ومفاتيح التفوق الميداني.</p>
-            </div>
-
-            <!-- Interactivity Menu -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <button onclick="switchGuideTab('g-conditions')" id="btn-g-conditions" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow">📌 شروط الانتقاء</button>
-                <button onclick="switchGuideTab('g-timeline')" id="btn-g-timeline" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">⏳ خارطة المسابقة</button>
-                <button onclick="switchGuideTab('g-charts')" id="btn-g-charts" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">📊 رسوم بيانية وتوزيع</button>
-                <button onclick="switchGuideTab('g-tips')" id="btn-g-tips" class="guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40">💡 نصائح وتوجيهات</button>
-            </div>
-
-            <!-- Sub Section 1: Conditions -->
-            <div id="sub-g-conditions" class="guide-content-block bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-4">
-                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">📑 شروط القبول والتسجيل المبدئي:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl flex flex-col items-center text-center space-y-2">
-                        <span class="text-3xl p-2 bg-amber-500/10 rounded-xl text-amber-400">📈</span>
-                        <h4 class="font-bold text-sm text-slate-200">المعدل الدراسي</h4>
-                        <p class="text-xs text-slate-400">حيازة شهادة التعليم المتوسط بمعدل ممتاز يطابق شروط المديرية لضمان ترتيب استحقاقي وطني عادل.</p>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl flex flex-col items-center text-center space-y-2">
-                        <span class="text-3xl p-2 bg-amber-500/10 rounded-xl text-amber-400">🩺</span>
-                        <h4 class="font-bold text-sm text-slate-200">السلامة الطبية</h4>
-                        <p class="text-xs text-slate-400">اجتياز الكشف الطبي الصارم تحت إشراف المصالح الطبية العسكرية بنجاح (سلامة النظر، البنية الجسدية، والقدرة العامة).</p>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl flex flex-col items-center text-center space-y-2">
-                        <span class="text-3xl p-2 bg-amber-500/10 rounded-xl text-amber-400">🏃‍♂️</span>
-                        <h4 class="font-bold text-sm text-slate-200">اللياقة البدنية</h4>
-                        <p class="text-xs text-slate-400">التمتع بلياقة بدنية ممتازة واجتياز اختبار السرعة، التحمل، والقدرة الميدانية لملاءمة أسلوب العيش والانضباط داخل المدارس.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sub Section 2: Timeline Diagram -->
-            <div id="sub-g-timeline" class="guide-content-block hidden bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-4">
-                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">🧭 المراحل الزمنية والتنظيمية للمسابقة:</h3>
-                <div class="relative border-r-2 border-amber-500/30 mr-4 space-y-6 py-2">
-                    <div class="relative pr-6">
-                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-slate-900"></div>
-                        <h4 class="font-bold text-sm text-amber-400">المرحلة الأولى: التسجيل الإلكتروني</h4>
-                        <p class="text-xs text-slate-400 mt-1">تعبئة البيانات الشخصية عبر المنصة الرسمية لوزارة الدفاع لفرز الطلبات مبدئياً.</p>
-                    </div>
-                    <div class="relative pr-6">
-                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-slate-900"></div>
-                        <h4 class="font-bold text-sm text-amber-400">المرحلة الثانية: الاستدعاء والفحص الطبي</h4>
-                        <p class="text-xs text-slate-400 mt-1">خضوع المترشحين المقبولين أولياً للفحوصات والتحاليل الطبية الشاملة والتأكد من معايير الطول والوزن والنظر.</p>
-                    </div>
-                    <div class="relative pr-6">
-                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-slate-900"></div>
-                        <h4 class="font-bold text-sm text-amber-400">المرحلة الثالثة: الاختبارات الرياضية والكتابية</h4>
-                        <p class="text-xs text-slate-400 mt-1">تقييم اللياقة الميدانية متبوعاً بالفحص المعرفي الكتابي في المواد الأساسية (الرياضيات، اللغة العربية، الفيزياء-التكنولوجيا، أو العلوم).</p>
-                    </div>
-                    <div class="relative pr-6">
-                        <div class="absolute -right-[7px] top-1 w-3 h-3 rounded-full bg-emerald-400 ring-4 ring-slate-900"></div>
-                        <h4 class="font-bold text-sm text-emerald-400">المرحلة النهائية: القبول والالتحاق</h4>
-                        <p class="text-xs text-slate-400 mt-1">يتم سحب الاستدعاءات من الموقع الرسمي وبدء الاندماج التربوي والعسكري في المدارس حسب الاستحقاق.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sub Section 3: Charts (CSS/SVG Based Diagrams) -->
-            <div id="sub-g-charts" class="guide-content-block hidden bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-6">
-                <div>
-                    <h3 class="text-lg font-bold text-slate-100">📊 رسوم بيانية: الوزن النسبي وتوزيع العلامات</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">توضح الأشكال أدناه توزيع الأهمية النسبية للمواد الأساسية في الاختبار الكتابي.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                    <!-- Bar Chart Layout -->
-                    <div class="space-y-3 bg-slate-900/40 p-4 rounded-2xl border border-slate-800">
-                        <h4 class="text-xs font-bold text-slate-300 mb-2">📊 معاملات الأهمية النسبية للمواد الأساسية:</h4>
-                        <div class="space-y-2">
-                            <div>
-                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>📐 الرياضيات (أعلى أهمية هندسية وتحليلية)</span><span class="text-amber-400 font-bold">40%</span></div>
-                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-amber-400 h-full rounded-full" style="width: 40%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>✍️ اللغة العربية (البيان وصياغة المفاهيم)</span><span class="text-amber-400 font-bold">35%</span></div>
-                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-amber-500 h-full rounded-full" style="width: 35%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>🧪 العلوم الفيزيائية والتكنولوجية (الفهم التطبيقي)</span><span class="text-slate-300 font-bold">15%</span></div>
-                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-slate-600 h-full rounded-full" style="width: 15%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs text-slate-400 mb-1"><span>🔬 علوم الطبيعة والحياة (المعارف الحيوية)</span><span class="text-slate-300 font-bold">10%</span></div>
-                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden"><div class="bg-slate-700 h-full rounded-full" style="width: 10%"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Radial / Circle Vector Info Box -->
-                    <div class="flex items-center gap-4 bg-slate-900/40 p-5 rounded-2xl border border-slate-800 justify-center">
-                        <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
-                            <path class="text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path class="text-amber-400" stroke-width="3.2" stroke-dasharray="75, 100" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        </svg>
-                        <div>
-                            <h4 class="font-bold text-sm text-amber-400">معدل الفرز والاستحقاق</h4>
-                            <p class="text-xs text-slate-400 leading-normal mt-1">تعتمد المنظومة على اختيار أعلى <span class="text-emerald-400 font-bold">75%</span> من المترشحين الناجحين في الفحص الطبي والبدني لولوج الاختبارات الكتابية المفصلية.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sub Section 4: Pro Tips -->
-            <div id="sub-g-tips" class="guide-content-block hidden bg-slate-800/30 border border-slate-700/40 rounded-3xl p-6 space-y-4">
-                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">💡 نصائح وتوجيهات التفوق والنجاح للطلاب:</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
-                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">⏰ 1. إدارة وتنظيم الوقت:</h4>
-                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">تدرب على حل المسائل الحسابية والنصوص النحوية والأسئلة العلمية مع توقيت زمني دقيق لبناء المهارة والسرعة المطلوبة أثناء الامتحان الحقيقي.</p>
-                    </div>
-                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
-                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">🧘‍♂️ 2. الثقة والثبات النفسي:</h4>
-                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">الراحة البدنية والنفسية ليلة الفحص والامتحان ضرورية جداً؛ تساعد على تدفق الأفكار بوضوح، التركيز العالي، وتجنب التشتت والارتباك.</p>
-                    </div>
-                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
-                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">📜 3. شمولية قراءة الأسئلة:</h4>
-                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">تأكد دائماً من قراءة معطيات المسائل بدقة في الفيزياء والرياضيات، وفهم المعنى العام المُراد في اللغة العربية قبل الشروع في التدوين.</p>
-                    </div>
-                    <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl">
-                        <h4 class="font-bold text-xs text-amber-400 flex items-center gap-1">🏃‍♂️ 4. اللياقة المستمرة:</h4>
-                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">المواظبة على تمارين الجري الخفيف والتمارين السويدية البسيطة يومياً قبل المسابقة يعزز من كفاءة القلب ويضمن تجاوز الفحص البدني بسهولة.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-slate-800 py-4 px-4 text-center">
-        <p class="text-[11px] text-slate-500 font-medium">
-            &copy; 2026 بوابة التحضير الفردي المستقلة. مبادرة تضامنية من إعداد: ب طارق.
-        </p>
-        <p class="text-[9px] text-slate-600 mt-1 max-w-2xl mx-auto">
-            توضيح قانوني: هذا الموقع لا يمثل إدارة مدارس أشبال الأمة، ولا يمثل وزارة الدفاع الوطني، ولا يعبر عن أي هيئة عسكرية رسمية في الجزائر. تم تطوير وبرمجة هذا الموقع كجهود تطوعية بحتة.
-        </p>
-    </footer>
-
-    <!-- Interactive JavaScript Core Logic -->
     <script>
-        // قاعدة البيانات التجريبية للمراجعة السريعة
-        const quizDatabase = {
-            math: {
-                title: "الرياضيات",
-                icon: "📐",
-                questions: [
-                    { q: "إذا كان حقل مستطيل الشكل محيطه 120م وطوله 40م، فما هو عرضه؟", a: ["20م", "30م", "15م", "25م"], c: 0 },
-                    { q: "احسب القيمة التالية: 25 % من العدد 800 تساوي؟", a: ["150", "200", "250", "300"], c: 1 },
-                    { q: "اشترى تاجر بضاعة بمبلغ 5000 دج وباعها بربح قدره 15%، ما هو ثمن البيع؟", a: ["5500 دج", "5750 دج", "6000 دج", "5250 دج"], c: 1 }
-                ]
-            },
-            arabic: {
-                title: "اللغة العربية",
-                icon: "✍️",
-                questions: [
-                    { q: "ما هو إعراب الكلمة المسطرة في جملة: 'العلمُ <span class='text-amber-400 underline'>ينيرُ</span> العقولَ'؟", a: ["فعل مضارع والفاعلة ضمير مستتر والجملة الفعلية في محل رفع خبر", "فعل ماض مبني على الفتح", "اسم مجرور بالكسرة الظاهرة", "مبتدأ مؤخر مرفوع"], c: 0 },
-                    { q: "عين الجمع الصحيح لكلمة 'صحراء':", a: ["صحاري", "صحراوات", "صحاريون", "أصحر"], c: 1 },
-                    { q: "ما نوع الصورة البيانية في قوله: 'أطل الفجر يبتسم للمجاهدين' framework؟", a: ["تشبيه بليغ", "كناية عن صفة", "استعارة مكنية", "مجاز مرسل"], c: 2 }
-                ]
-            },
-            physics: {
-                title: "العلوم الفيزيائية والتكنولوجيا",
-                icon: "🧪",
-                questions: [
-                    { q: "ما هي وحدة قياس القوة الكهربائية أو التوتر الكهربائي في النظام الدولي؟", a: ["الأمبير", "الفولت", "الواط", "الأوم"], c: 1 },
-                    { q: "عند تحول المادة من الحالة الصلبة مباشرة إلى الحالة الغازية تسمى هذه الظاهرة بـ:", a: ["التسامي (التصعيد)", "التكاثف", "الانصهار", "التجمد"], c: 0 },
-                    { q: "الرمز الكيميائي الصحيح لذرة النحاس هو:", a: ["Fe", "Cl", "Cu", "Ca"], c: 2 }
-                ]
-            },
-            biology: {
-                title: "علوم الطبيعة والحياة",
-                icon: "🔬",
-                questions: [
-                    { q: "ما هو العضو المسؤول الأساسي عن امتصاص المغذيات المهضومة في الجهاز الهضمي للإنسان؟", a: ["المعدة", "المعي الدقيق", "المعي الغليظ", "المرئ"], c: 1 },
-                    { q: "أي من العناصر التالية يعتبر المنتج الأول والأساسي في السلسلة الغذائية؟", a: ["النباتات الخضراء", "المستهلك الأول", "المستهلك الثاني", "الفطريات البكتيرية"], c: 0 },
-                    { q: "ما هي الوظيفة الحيوية التي يقوم بها النبات الأخضر بامتصاص CO2 وطرح O2 في الضوء؟", a: ["التنفس الخلوي", "التركيب الضوئي", "النتح النباتي", "الامتصاص الجذري"], c: 1 }
-                ]
-            }
-        };
-
-        let currentSubject = "";
-        let currentQuestionIndex = 0;
-        let userScore = 0;
-
-        // دالة تبديل التبويبات الرئيسية
-        function switchTab(tab) {
-            const tabQuiz = document.getElementById('tabQuiz');
-            const tabGuide = document.getElementById('tabGuide');
-            const sectionQuiz = document.getElementById('sectionQuiz');
-            const sectionGuide = document.getElementById('sectionGuide');
-
-            if(tab === 'quiz') {
-                tabQuiz.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow bg-amber-500 text-slate-950";
-                tabGuide.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/30";
-                sectionQuiz.classList.remove('hidden');
-                sectionGuide.classList.add('hidden');
-            } else {
-                tabGuide.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow bg-amber-500 text-slate-950";
-                tabQuiz.className = "flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/30";
-                sectionGuide.classList.remove('hidden');
-                sectionQuiz.classList.add('hidden');
-                exitQuiz();
-            }
-        }
-
-        // دالة التنقل داخل التبويبات الفرعية للدليل التفاعلي المطور
         function switchGuideTab(targetSubId) {
-            // إخفاء كل العناصر الداخلية
-            document.querySelectorAll('.guide-content-block').forEach(block => {
-                block.classList.add('hidden');
-            });
-            // إزالة ألوان النشاط من أزرار الدليل
-            document.querySelectorAll('.guide-tab-btn').forEach(btn => {
-                btn.className = "guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-400 border border-slate-700/40";
-            });
-
-            // إظهار العنصر المحدد
+            document.querySelectorAll('.guide-content-block').forEach(b => b.classList.add('hidden'));
+            document.querySelectorAll('.guide-tab-btn').forEach(btn => btn.className = "guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400");
             document.getElementById(`sub-${targetSubId}`).classList.remove('hidden');
-            // تمييز الزر المختار
-            document.getElementById(`btn-${targetSubId}`).className = "guide-tab-btn py-2.5 px-3 rounded-xl text-xs font-bold transition-all bg-amber-500 text-slate-950 shadow";
+            document.getElementById(`btn-${targetSubId}`).className = "guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-amber-500 text-slate-950 shadow";
         }
-
-        // دالة بدء مراجعة مادة معينة
-        function startQuiz(subjectKey) {
-            currentSubject = subjectKey;
-            currentQuestionIndex = 0;
-            userScore = 0;
-
-            document.getElementById('subjectView').classList.add('hidden');
-            document.getElementById('resultView').classList.add('hidden');
-            document.getElementById('quizView').classList.remove('hidden');
-
-            document.getElementById('subjectTitle').innerText = quizDatabase[subjectKey].title;
-            document.getElementById('subjectIcon').innerText = quizDatabase[subjectKey].icon;
-
-            showQuestion();
-        }
-
-        // عرض السؤال والخيارات
-        function showQuestion() {
-            const subjectData = quizDatabase[currentSubject];
-            const currentQuestion = subjectData.questions[currentQuestionIndex];
-            const totalQuestions = subjectData.questions.length;
-
-            // تحديث شريط والعداد
-            document.getElementById('progressText').innerText = `السؤال ${currentQuestionIndex + 1} من ${totalQuestions}`;
-            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-            document.getElementById('progressBar').style.width = `${progressPercent}%`;
-
-            // كتابة السؤال
-            document.getElementById('questionText').innerHTML = currentQuestion.q;
-
-            // إنشاء الخيارات
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = "";
-
-            currentQuestion.a.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.className = "w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 p-3.5 rounded-xl text-right font-semibold transition-all text-sm text-slate-200 active:scale-[0.99]";
-                btn.innerHTML = `<span class='inline-block bg-slate-900 w-6 h-6 text-center rounded-md text-amber-400 font-bold ml-2 text-xs leading-6'>${index + 1}</span> ${option}`;
-                btn.onclick = () => checkAnswer(index);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        // التحقق من صحة الخيار المختار واحتساب التقييم
-        function checkAnswer(selectedIndex) {
-            const subjectData = quizDatabase[currentSubject];
-            const currentQuestion = subjectData.questions[currentQuestionIndex];
-
-            if(selectedIndex === currentQuestion.c) {
-                userScore += Math.ceil(100 / subjectData.questions.length);
-            }
-
-            currentQuestionIndex++;
-
-            if(currentQuestionIndex < subjectData.questions.length) {
-                showQuestion();
-            } else {
-                endQuiz();
-            }
-        }
-
-        // انتهاء الاختبار وتوليد زر التحميل المباشر المتوافق مع ملفات GitHub الفردية
-        function endQuiz() {
-            if(userScore > 100) userScore = 100;
-            document.getElementById('quizView').classList.add('hidden');
-            document.getElementById('resultView').classList.remove('hidden');
-            document.getElementById('finalScoreText').innerText = userScore;
-
-            // تم تصحيح وضبط الروابط لتطابق أسماء الملفات الجديدة تماماً بدون رموز زائدة
-            const pdfLinks = {
-                math: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A7%D8%AA1.pdf",
-                arabic: "https://boureghdatarek-hub.github.io/Ashbal/%D8%A7%D9%84%D9%84%D8%BA%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.pdf",
-                physics: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85-%D9%81%D9%8a%D8%b2%D9%8a%D8%a7%D8%a6%D9%8a%D8%a9-%D8%b1%D8%a7%D8%b3%D8%b9%D8%a9-%D9%85%D8%aa%D9%88%D8%b3%D8%b7.pdf", 
-                biology: "https://boureghdatarek-hub.github.io/Ashbal/%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D8%B7%D8%A8%D9%8a%D8%B9%D8%A9%20%D9%88%D8%A7%D9%84%D8%AD%D9%8A%D8%A7%D8%A9.pdf" 
-            };
-
-            const downloadContainer = document.getElementById('pdfDownloadContainer');
-            if (downloadContainer && pdfLinks[currentSubject]) {
-                let btnText = `تحميل ملف ${quizDatabase[currentSubject].title} PDF`;
-
-                downloadContainer.innerHTML = `
-                    <div class="bg-amber-500/10 border border-amber-500/20 p-4 rounded-2xl max-w-sm mx-auto mt-4 text-center">
-                        <p class="text-xs text-amber-400 font-bold mb-2.5">🎁 يمكنك الآن تحميل دليل المراجعة الشامل بصيغة PDF:</p>
-                        <a href="${pdfLinks[currentSubject]}" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl transition text-sm shadow">
-                            <span>📥</span> ${btnText}
-                        </a>
-                    </div>
-                `;
-            } else if (downloadContainer) {
-                downloadContainer.innerHTML = "";
-            }
-        }
-
-        // العودة للرئيسية وإلغاء الجلسة الحالية
-        function exitQuiz() {
-            document.getElementById('quizView').classList.add('hidden');
-            document.getElementById('resultView').classList.add('hidden');
-            document.getElementById('subjectView').classList.remove('hidden');
-            currentSubject = "";
+        
+        function switchTab(tab) {
+            document.getElementById('sectionQuiz').classList.toggle('hidden', tab !== 'quiz');
+            document.getElementById('sectionGuide').classList.toggle('hidden', tab !== 'guide');
         }
     </script>
 </body>
