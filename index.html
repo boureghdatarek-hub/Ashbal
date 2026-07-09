@@ -3,66 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة التحضير الفردي التفاعلية | أشبال الأمة</title>
+    <title>بوابة التحضير الفردي التفاعلية</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-slate-900 text-slate-100 p-4">
 
-    <header class="bg-slate-800/80 border-b border-slate-700/50 p-4 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h1 class="text-xl font-black text-amber-400">بوابة التحضير الفردي التفاعلية</h1>
-        </div>
-    </header>
-
-    <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6">
-        <div class="flex justify-center gap-2 mb-6">
-            <button onclick="showSection('quiz')" class="py-2 px-6 rounded-xl font-bold bg-slate-800 hover:bg-slate-700 transition">🎯 مسابقات المراجعة</button>
-            <button onclick="showSection('guide')" class="py-2 px-6 rounded-xl font-bold bg-amber-500 text-slate-950">📜 دليل الإرشاد</button>
+    <main class="max-w-4xl mx-auto">
+        <div class="flex justify-center gap-3 mb-6">
+            <button onclick="showDocSection('conditions')" class="py-2 px-4 rounded-xl bg-slate-800 text-sm font-bold">📌 الشروط</button>
+            <button onclick="showDocSection('docs')" class="py-2 px-4 rounded-xl bg-amber-500 text-slate-950 text-sm font-bold">📂 الوثائق المطلوبة</button>
+            <button onclick="showDocSection('timeline')" class="py-2 px-4 rounded-xl bg-slate-800 text-sm font-bold">⏳ الخارطة</button>
         </div>
 
-        <div id="sectionGuide" class="space-y-6">
-            <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
-                <button onclick="showSub('conditions')" class="p-2 rounded-lg bg-slate-800 text-xs font-bold">📌 الشروط</button>
-                <button onclick="showSub('docs')" class="p-2 rounded-lg bg-amber-500 text-slate-950 text-xs font-bold">📂 الوثائق</button>
-                <button onclick="showSub('timeline')" class="p-2 rounded-lg bg-slate-800 text-xs font-bold">⏳ الخارطة</button>
-            </div>
-
-            <div id="sub-docs" class="bg-slate-800/50 border border-slate-700 rounded-3xl p-6">
-                <h3 class="text-lg font-bold text-emerald-400 mb-4">📂 الملف الكامل للوثائق المطلوبة:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-bold text-slate-200 mb-2 border-b border-slate-600 pb-1">الوثائق الإدارية</h4>
-                        <ul class="text-sm text-slate-400 space-y-1 list-disc pr-4">
-                            <li>الاستدعاء (من الموقع الرسمي).</li>
-                            <li>نسخة كشف النقاط (سنة 4 متوسط).</li>
-                            <li>بطاقة التعريف الوطنية أو المدرسية.</li>
-                            <li>شهادة الميلاد الأصلية.</li>
-                            <li>بدلة الرياضة.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 mb-2 border-b border-slate-600 pb-1">الملف الطبي (أقل من 21 يوم)</h4>
-                        <ul class="text-sm text-slate-400 space-y-1 list-disc pr-4">
-                            <li>تحاليل الدم (FNS, BW, HBS, HBC, HIV).</li>
-                            <li>فصيلة الدم ونسبة السكر.</li>
-                            <li>تحليل كيميائي للبول.</li>
-                            <li>تحليل وظائف الكلى والكبد.</li>
-                            <li>مخطط استقطاب القلب (ECG).</li>
-                            <li>الأشعة السينية للصدر.</li>
-                        </ul>
-                    </div>
+        <div id="docs-content" class="bg-slate-800/50 border border-emerald-500/30 rounded-3xl p-8 shadow-xl">
+            <h3 class="text-xl font-black text-emerald-400 mb-6 flex items-center gap-2">
+                📂 الملف الكامل للوثائق المطلوبة
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">الوثائق الإدارية</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li>✅ الاستدعاء (من الموقع الرسمي).</li>
+                        <li>✅ نسخة كشف النقاط (سنة 4 متوسط).</li>
+                        <li>✅ بطاقة التعريف الوطنية أو المدرسية.</li>
+                        <li>✅ شهادة الميلاد الأصلية.</li>
+                        <li>✅ بدلة رياضية.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">الملف الطبي (أقل من 21 يوم)</h4>
+                    <ul class="space-y-1.5 text-sm text-slate-400">
+                        <li>🧪 تحاليل الدم (FNS, BW, HBS, HBC, HIV).</li>
+                        <li>🩸 فصيلة الدم ونسبة السكر.</li>
+                        <li>⚗️ تحليل كيميائي للبول.</li>
+                        <li>⚙️ تحليل وظائف الكلى والكبد.</li>
+                        <li>🫀 مخطط استقطاب القلب (ECG).</li>
+                        <li>🫁 الأشعة السينية للصدر.</li>
+                    </ul>
                 </div>
             </div>
+            <p class="mt-6 text-xs text-amber-400 italic bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
+                ⚠️ تنبيه: يجب ختم وتوقيع جميع الوثائق الطبية من طرف الطبيب والمخبر المعتمد.
+            </p>
         </div>
     </main>
 
     <script>
-        function showSection(id) { /* منطق التنقل بين الأقسام الرئيسية */ }
-        function showSub(id) { 
-            // منطق إظهار تبويب الوثائق الفرعي
-            console.log("عرض تبويب: " + id);
+        function showDocSection(section) {
+            // منطق التبديل هنا
+            console.log("تم اختيار القسم: " + section);
         }
     </script>
 </body>
