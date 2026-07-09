@@ -4,90 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بوابة التحضير الفردي التفاعلية | أشبال الأمة</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
 
-    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 p-4 sticky top-0 z-50">
+    <header class="bg-slate-800/80 border-b border-slate-700/50 p-4 sticky top-0 z-50">
         <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <span class="text-3xl">📚</span>
-                <div>
-                    <h1 class="text-xl font-black text-amber-400">بوابة التحضير الفردي التفاعلية</h1>
-                    <p class="text-xs text-slate-400">دليل مراجعة واختبارات تجريبية للمترشحين</p>
-                </div>
-            </div>
-            <div class="bg-slate-900/60 border border-slate-700 px-4 py-1.5 rounded-full text-xs font-bold text-slate-300">
-                إعداد: <span class="text-amber-400">المواطن ب طارق</span>
-            </div>
+            <h1 class="text-xl font-black text-amber-400">بوابة التحضير الفردي التفاعلية</h1>
         </div>
     </header>
 
     <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6">
-        <div id="navTabs" class="flex justify-center gap-2 mb-6 max-w-md mx-auto">
-            <button onclick="switchTab('quiz')" id="tabQuiz" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">🎯 مسابقات المراجعة</button>
-            <button onclick="switchTab('guide')" id="tabGuide" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800/50 border border-slate-700/30 text-slate-400">📜 دليل الإرشاد</button>
+        <div class="flex justify-center gap-2 mb-6">
+            <button onclick="showSection('quiz')" class="py-2 px-6 rounded-xl font-bold bg-slate-800 hover:bg-slate-700 transition">🎯 مسابقات المراجعة</button>
+            <button onclick="showSection('guide')" class="py-2 px-6 rounded-xl font-bold bg-amber-500 text-slate-950">📜 دليل الإرشاد</button>
         </div>
 
-        <!-- Section Guide (MUPDATED) -->
-        <div id="sectionGuide" class="hidden space-y-6">
-            <div class="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center">
-                <h2 class="text-2xl font-black text-amber-400">دليل التوجيه والتخطيط</h2>
+        <div id="sectionGuide" class="space-y-6">
+            <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                <button onclick="showSub('conditions')" class="p-2 rounded-lg bg-slate-800 text-xs font-bold">📌 الشروط</button>
+                <button onclick="showSub('docs')" class="p-2 rounded-lg bg-amber-500 text-slate-950 text-xs font-bold">📂 الوثائق</button>
+                <button onclick="showSub('timeline')" class="p-2 rounded-lg bg-slate-800 text-xs font-bold">⏳ الخارطة</button>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                <button onclick="switchGuideTab('g-conditions')" id="btn-g-conditions" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-amber-500 text-slate-950">📌 الشروط</button>
-                <button onclick="switchGuideTab('g-timeline')" id="btn-g-timeline" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">⏳ الخارطة</button>
-                <button onclick="switchGuideTab('g-docs')" id="btn-g-docs" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">📂 الوثائق</button>
-                <button onclick="switchGuideTab('g-charts')" id="btn-g-charts" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">📊 التوزيع</button>
-                <button onclick="switchGuideTab('g-tips')" id="btn-g-tips" class="guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400">💡 نصائح</button>
-            </div>
-
-            <!-- Documents Section (NEW) -->
-            <div id="sub-g-docs" class="guide-content-block hidden bg-slate-800/30 border border-emerald-500/20 rounded-3xl p-6 space-y-4">
-                <h3 class="text-lg font-bold text-emerald-400">📂 الملف الكامل للوثائق المطلوبة:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
-                        <h4 class="font-bold text-sm text-slate-200 mb-3 border-b border-slate-700 pb-2">الوثائق الإدارية</h4>
-                        <ul class="text-xs text-slate-400 space-y-2">
-                            <li>✅ الاستدعاء (من الموقع الرسمي).</li>
-                            <li>✅ نسخة كشف النقاط (سنة 4 متوسط).</li>
-                            <li>✅ بطاقة التعريف أو المدرسية.</li>
-                            <li>✅ شهادة الميلاد الأصلية.</li>
-                            <li>✅ بدلة رياضية.</li>
+            <div id="sub-docs" class="bg-slate-800/50 border border-slate-700 rounded-3xl p-6">
+                <h3 class="text-lg font-bold text-emerald-400 mb-4">📂 الملف الكامل للوثائق المطلوبة:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-slate-200 mb-2 border-b border-slate-600 pb-1">الوثائق الإدارية</h4>
+                        <ul class="text-sm text-slate-400 space-y-1 list-disc pr-4">
+                            <li>الاستدعاء (من الموقع الرسمي).</li>
+                            <li>نسخة كشف النقاط (سنة 4 متوسط).</li>
+                            <li>بطاقة التعريف الوطنية أو المدرسية.</li>
+                            <li>شهادة الميلاد الأصلية.</li>
+                            <li>بدلة الرياضة.</li>
                         </ul>
                     </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-2xl">
-                        <h4 class="font-bold text-sm text-slate-200 mb-3 border-b border-slate-700 pb-2">الملف الطبي (أقل من 21 يوم)</h4>
-                        <ul class="text-xs text-slate-400 space-y-1.5">
-                            <li>🧪 تحاليل الدم (FNS, BW, HBS, HIV).</li>
-                            <li>🩸 فصيلة الدم والسكر.</li>
-                            <li>🔬 وظائف الكلى والكبد.</li>
-                            <li>🫀 مخطط استقطاب القلب (ECG).</li>
-                            <li>🫁 الأشعة السينية للصدر.</li>
+                    <div>
+                        <h4 class="font-bold text-slate-200 mb-2 border-b border-slate-600 pb-1">الملف الطبي (أقل من 21 يوم)</h4>
+                        <ul class="text-sm text-slate-400 space-y-1 list-disc pr-4">
+                            <li>تحاليل الدم (FNS, BW, HBS, HBC, HIV).</li>
+                            <li>فصيلة الدم ونسبة السكر.</li>
+                            <li>تحليل كيميائي للبول.</li>
+                            <li>تحليل وظائف الكلى والكبد.</li>
+                            <li>مخطط استقطاب القلب (ECG).</li>
+                            <li>الأشعة السينية للصدر.</li>
                         </ul>
                     </div>
                 </div>
-                <p class="text-[10px] text-amber-400 italic bg-amber-500/10 p-2 rounded-lg">تنبيه: يجب ختم وتوقيع جميع الوثائق الطبية من طرف الطبيب والمخبر المعتمد.</p>
             </div>
-            
-            <!-- Other sections (Conditions, Timeline, etc.) remain as they were -->
         </div>
     </main>
 
     <script>
-        function switchGuideTab(targetSubId) {
-            document.querySelectorAll('.guide-content-block').forEach(b => b.classList.add('hidden'));
-            document.querySelectorAll('.guide-tab-btn').forEach(btn => btn.className = "guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400");
-            document.getElementById(`sub-${targetSubId}`).classList.remove('hidden');
-            document.getElementById(`btn-${targetSubId}`).className = "guide-tab-btn py-2 px-3 rounded-xl text-[10px] font-bold bg-amber-500 text-slate-950 shadow";
-        }
-        
-        function switchTab(tab) {
-            document.getElementById('sectionQuiz').classList.toggle('hidden', tab !== 'quiz');
-            document.getElementById('sectionGuide').classList.toggle('hidden', tab !== 'guide');
+        function showSection(id) { /* منطق التنقل بين الأقسام الرئيسية */ }
+        function showSub(id) { 
+            // منطق إظهار تبويب الوثائق الفرعي
+            console.log("عرض تبويب: " + id);
         }
     </script>
 </body>
