@@ -292,5 +292,36 @@ function exitQuiz(){
     document.getElementById("resultView").classList.add("hidden");
 
     document.getElementById("subjectView").classList.remove("hidden");
+    function startTimer() {
+
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+
+        timeLeft--;
+
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        const timerElement = document.getElementById("timer");
+
+        if (timerElement) {
+            timerElement.textContent =
+                `${minutes}:${seconds.toString().padStart(2, "0")}`;
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            alert("انتهى الوقت!");
+            endQuiz();
+        }
+
+    }, 1000);
+
+}
+
+function stopTimer() {
+    clearInterval(timer);
+}
 
 }
