@@ -2,6 +2,12 @@
 // Ashbal Interactive Portal
 // app.js
 // =======================================
+let currentSubject = "";
+let currentQuestionIndex = 0;
+let userScore = 0;
+
+let timer = null;
+let timeLeft = 300; // 5 دقائق
 
 // قاعدة البيانات
 const quizDatabase = {
