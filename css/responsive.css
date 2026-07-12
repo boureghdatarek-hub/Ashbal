@@ -1,0 +1,130 @@
+/* ===========================================
+   Ashbal Platform v1.0
+   Responsive Design
+=========================================== */
+
+/* Large Tablets */
+
+@media (max-width:1024px){
+
+    .container{
+
+        width:94%;
+
+    }
+
+}
+
+/* Tablets */
+
+@media (max-width:768px){
+
+    h1{
+
+        font-size:1.8rem;
+
+    }
+
+    h2{
+
+        font-size:1.5rem;
+
+    }
+
+    .section-title{
+
+        font-size:1.7rem;
+
+    }
+
+    .card{
+
+        padding:20px;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+    .grid-2{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+    }
+
+    .grid-3{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+    }
+
+    .grid-4{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+    }
+
+}
+
+/* Mobile */
+
+@media (max-width:480px){
+
+    body{
+
+        font-size:15px;
+
+    }
+
+    h1{
+
+        font-size:1.5rem;
+
+    }
+
+    h2{
+
+        font-size:1.3rem;
+
+    }
+
+    .section-title{
+
+        font-size:1.4rem;
+
+    }
+
+    .card{
+
+        border-radius:16px;
+
+        padding:18px;
+
+    }
+
+    .btn{
+
+        padding:14px;
+
+        font-size:14px;
+
+    }
+
+}
