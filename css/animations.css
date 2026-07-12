@@ -1,0 +1,173 @@
+/* ===========================================
+   Ashbal Platform Animations
+=========================================== */
+
+/* Fade In */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+/* Slide Up */
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Slide Right */
+
+@keyframes slideRight{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* Zoom */
+
+@keyframes zoomIn{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* Floating */
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Pulse */
+
+@keyframes pulseGlow{
+
+    0%{
+
+        box-shadow:0 0 0 rgba(251,191,36,.4);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 25px rgba(251,191,36,.5);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 rgba(251,191,36,.4);
+
+    }
+
+}
+
+/* Ready Classes */
+
+.fade-in{
+
+    animation:fadeIn .6s ease;
+
+}
+
+.slide-up{
+
+    animation:slideUp .7s ease;
+
+}
+
+.slide-right{
+
+    animation:slideRight .7s ease;
+
+}
+
+.zoom-in{
+
+    animation:zoomIn .5s ease;
+
+}
+
+.floating{
+
+    animation:floating 4s ease-in-out infinite;
+
+}
+
+.glow{
+
+    animation:pulseGlow 2s infinite;
+
+}
