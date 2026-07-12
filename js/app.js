@@ -195,6 +195,8 @@ function startQuiz(subject){
     document.getElementById("subjectIcon").innerText=
         quizDatabase[subject].icon;
 
+    timeLeft = 300;
+startTimer();
     showQuestion();
 
 }
